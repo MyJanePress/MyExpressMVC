@@ -1,19 +1,13 @@
-
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const path = require('path');
-
-const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
-  filename: "./index.html"
-});
-
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const CleanWebpackPlugin = require("clean-webpack-plugin");
 module.exports = {
+  entry: './views/index.js',
+  output: {
+    path: path.join(__dirname, 'public'),
+    filename: "bundle.js"
+  },
   module: {
-    //   entry: "./src/index.js",
-    //   output: {
-    //     path: path.resolve('dist'),
-    //     filename: 'bundled.js'
-    //   },
     rules: [
       {
         test: /\.js|jsx$/,
@@ -23,31 +17,20 @@ module.exports = {
         }
       },
       {
-          test: /\.css$/,
-          use: [
-            "style-loader",
-            {
-                loader: "css-loader",
-                options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: "[name]_[local]_[hash:base64]",
-                    sourceMap: true,
-                    minimize: true
-                }
-            }
-        ]
-      },
-      {
-          test: /\.jsx$/,
-          use: {
-              loader: "jsx-loader",
-              options: {
-                  modules: true,
-              }
-          }
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
-  plugins: [htmlPlugin]
+  plugins: [
+    new HtmlWebpackPlugin({template: "./views/index.html" })
+  ],
+  resolve:{
+    mainFiles:['index'],
+    extensions: ['.js','.jsx','.css']
+  },
+  watch: true,
+  devServer: {
+    historyApiFallback: true
+  }
 };

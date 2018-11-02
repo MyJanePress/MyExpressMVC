@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var engines = require('consolidate');
 
 var userRouter = require('./routes/user');
 const profileRouter = require('./routes/profile');
@@ -12,18 +13,22 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jsx');
-
+app.engine('html', engines.mustache);
+app.set('view engine', 'html');
+///////////////////////////////////
+///////////////////////////////////
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
+// app.use(express.static('./dist'));
+app.use('*', indexRouter);
 app.use('/',indexRouter);
 app.use('/api/user', userRouter);
 app.use('/profile',profileRouter);
-// app.use('/api/users', usersRouter);
+app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
