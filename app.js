@@ -1,3 +1,6 @@
+import React from 'react';
+import { hot } from 'react-hot-loader';
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -46,4 +49,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = hot(module)(app);

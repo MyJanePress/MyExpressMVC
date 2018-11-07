@@ -29,7 +29,6 @@ module.exports = {
     mainFiles:['index'],
     extensions: ['.js','.jsx','.css']
   },
-  watch: true,
   devServer: {
     historyApiFallback: true
   }

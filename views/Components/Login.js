@@ -12,13 +12,13 @@ class Login extends Component {
                         <Form className="m-5">
                             <FormGroup>
                                 <Label for="email">Email</Label>
-                                <Input type="email" name="email" id="email" placeholder="User Email"></Input>
+                                <Input type="email" name="email" id="email" placeholder="User Email" required></Input>
                             </FormGroup>
                             <FormGroup>
                                 <Label for="password">Password</Label>
-                                <Input type="password" name="password" id="password" placeholder="User Password"></Input>
+                                <Input type="password" name="password" id="password" placeholder="User Password" required></Input>
                             </FormGroup>
-                            <Button className="float-right m-2" onClick={this.props.onLogIn}><span id='logState'>Login</span></Button>
+                            <Button className="float-right m-2" onClick={this.props.onLogIn}><span id='logState'>Log In</span></Button>
                             <Button className="float-right m-2">Cancel</Button>
                         </Form>
                     </div>
@@ -29,15 +29,14 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('userlogin --> '+state.userlogin);
     return {
         userlogin: state.userlogin
     }
 };
 
-const mapDispatchToProps = (_dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        onLogIn:() => _dispatch({type: 'LOG_IN'})
+        onLogIn:() => dispatch({type: 'LOG_IN'})
     }
 };
 

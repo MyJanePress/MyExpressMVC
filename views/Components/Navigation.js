@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { Collapse, Navbar, NavbarToggler, 
-        NavbarBrand, Nav, NavItem 
+import {
+        Collapse,
+        Navbar,
+        NavbarToggler, 
+        NavbarBrand,
+        Nav,
+        NavItem, 
+        Button
         } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { withRouter, Link} from 'react-router-dom';
+import '../styles/Navigation';
 
 class Navigation extends Component {
     render() {
@@ -11,25 +18,44 @@ class Navigation extends Component {
             <div>
                 <Navbar color="light" light expand="md">
                     <NavbarBrand href="/">Home</NavbarBrand>
-                        <NavbarToggler onClick={this.props.onTogglerPress}></NavbarToggler>
-                        <Collapse isOpen={this.props.toggle} navbar>
-                            <Nav className="m1-auto" navbar>
-                                <NavItem className='m-2'>
-                                    <Link to='/login'>Log In</Link>
-                                </NavItem>
-                                <NavItem className='m-2'>
-                                    <Link to='/signup'>Sing Up</Link>
-                                </NavItem>
-                                <NavItem className='m-2'>{
-                                    this.props.userlogin === true ? (
-                                        <Link to='/customer'>Customer</Link>
-                                    ):(
-                                        <Link to='/'>Customer</Link>
+                    <NavbarToggler onClick={this.props.onTogglerPress}>
+                    </NavbarToggler>
+                    <Collapse isOpen={this.props.toggle} navbar>
+                        <Nav className="m1-auto" navbar>{
+                            <NavItem className='m-2'>
+                                <Button type='button'>{
+                                    withRouter(
+                                        ({ history }) =>
+                                            this.props.userlogin === true ?
+                                            (
+                                                <Link to='/' className='nav_link'
+                                                    onClick={this.props.onLogOut}>
+                                                    <span>Log Out</span>
+                                                </Link>
+                                            ) : (
+                                                <Link to='/login'
+                                                    className='nav_link'>
+                                                    <span>Log In</span>
+                                                </Link>
+                                            )
                                     )
                                 }
-                                </NavItem>
-                            </Nav>
-                        </Collapse>
+                                </Button>
+                            </NavItem>
+                            }
+                            <NavItem className='m-2'>
+                                <Button type='button'>
+                                    <Link to='/signup' className='nav_link'>
+                                        Sign Up</Link>
+                                </Button>
+                            </NavItem>
+                            <NavItem className='m-2'>
+                                <Button type='button'>
+                                    <Link to='/customer' className='nav_link'>Customer</Link>
+                                </Button>
+                            </NavItem>
+                        </Nav>
+                    </Collapse>
                 </Navbar>
             </div>
         );
@@ -37,6 +63,7 @@ class Navigation extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log('User Login',state.userlogin);
     return {
         userlogin: state.userlogin,
         toggle:state.toggle
@@ -45,7 +72,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onTogglerPress: () => dispatch({type: 'COLLAPSED'})
+        onTogglerPress: () => dispatch({ type: 'COLLAPSED' }),
+        onLogOut: () => dispatch({type: 'LOG_OUT'})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

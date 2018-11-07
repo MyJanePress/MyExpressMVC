@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 class Customer extends Component {
     render() { 
@@ -11,10 +10,4 @@ class Customer extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        userlogin: state.userlogin
-    }
-};
-
-export default connect(mapStateToProps)(Customer);
+export default (Customer);

@@ -5,7 +5,6 @@ class SignUp extends Component {
     render() { 
         return (
             <div>
-                {console.log('userlogin --> '+this.props.userlogin)}
             <div className="row">
                 <div className="col-md-3"></div>
                 <div className="col-md-6">
