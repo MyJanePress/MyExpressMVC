@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from './action';
 
 class Login extends Component {
     render() { 
@@ -27,17 +28,5 @@ class Login extends Component {
         );
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        userlogin: state.userlogin
-    }
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onLogIn:() => dispatch({type: 'LOG_IN'})
-    }
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

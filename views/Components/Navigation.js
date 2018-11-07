@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { withRouter, Link} from 'react-router-dom';
 import '../styles/Navigation';
-
+import { mapStateToProps, mapDispatchToProps} from './action'
 class Navigation extends Component {
     render() {
         return ( 
@@ -24,21 +24,18 @@ class Navigation extends Component {
                         <Nav className="m1-auto" navbar>{
                             <NavItem className='m-2'>
                                 <Button type='button'>{
-                                    withRouter(
-                                        ({ history }) =>
-                                            this.props.userlogin === true ?
-                                            (
-                                                <Link to='/' className='nav_link'
-                                                    onClick={this.props.onLogOut}>
-                                                    <span>Log Out</span>
-                                                </Link>
-                                            ) : (
-                                                <Link to='/login'
-                                                    className='nav_link'>
-                                                    <span>Log In</span>
-                                                </Link>
-                                            )
-                                    )
+                                    this.props.userlogin === true ?
+                                        (
+                                            <Link to='/' className='nav_link'
+                                                onClick={this.props.onLogOut}>
+                                                <span>Log Out</span>
+                                            </Link>
+                                        ) : (
+                                            <Link to='/login'
+                                                className='nav_link'>
+                                                <span>Log In</span>
+                                            </Link>
+                                        )
                                 }
                                 </Button>
                             </NavItem>
@@ -62,18 +59,5 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    console.log('User Login',state.userlogin);
-    return {
-        userlogin: state.userlogin,
-        toggle:state.toggle
-    }
-};
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onTogglerPress: () => dispatch({ type: 'COLLAPSED' }),
-        onLogOut: () => dispatch({type: 'LOG_OUT'})
-    }
-}
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

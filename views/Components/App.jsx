@@ -7,6 +7,7 @@ import Customer from './Customer';
 import Navigation from './Navigation';
 import { connect } from 'react-redux';
 import PrivateRouter from './PrivateRouter';
+import { mapStateToProps } from './action';
 
 class App extends Component {
     constructor(props) {
@@ -28,11 +29,5 @@ class App extends Component {
         );
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        userlogin: state.userlogin
-    }
-};
 
 export default connect(mapStateToProps)(App);
