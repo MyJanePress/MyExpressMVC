@@ -17,11 +17,3 @@ export const mapDispatchToProps = dispatch => bindActionCreators({
   logoutWatcher,
   userAccessWatcher,
 }, dispatch);
-
-
-// onLogIn: loginInfo => dispatch('LOG_IN', loginInfo),
-// onLogOut: () => dispatch({ type: LOG_OUT }),
-// onTogglerPress: () => dispatch({ type: COLLAPSED }),
-// userSignupRuquest: userData => dispatch(
-//   { type: SIGN_UP, payload: userData },
-// ),
