@@ -1,8 +1,9 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: './views/index.js',
+  entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'public'),
     filename: "bundle.js"
@@ -13,23 +14,26 @@ module.exports = {
         test: /\.js|jsx$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        test: /\.scss|css$/,
+        loaders: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({template: "./views/index.html" })
-  ],
+  // plugins: [
+  //   new HtmlWebpackPlugin({ template: "./src/index.html" }),
+  // ],
   resolve:{
     mainFiles:['index'],
     extensions: ['.js','.jsx','.css']
   },
-  devServer: {
-    historyApiFallback: true
-  }
+  // plugins: [
+  //   new ExtractTextPlugin('style.css'),
+  // ]
+  // devServer: {
+  //   historyApiFallback: true
+  // },
 };

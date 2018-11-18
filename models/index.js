@@ -7,7 +7,6 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
-// const user = require('./user');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -31,15 +30,6 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('DataBase Connected');
-  })
-  .catch((err) => {
-    console.log("Database not connected");
-  });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
