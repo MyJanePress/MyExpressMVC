@@ -7,10 +7,10 @@ const userControllers = require('../controllers/userController');
 
 router.get('/:id', userControllers.userId);
 
-router.post('/', userControllers.getContent);
+router.post('/', userControllers.userLogin);
 
-router.put('/:id', userControllers.update);
+// router.put('/:id', userControllers.update);
 
-router.delete('/:id', userControllers.dataDelete);
+// router.delete('/:id', userControllers.dataDelete);
 
 module.exports = router;

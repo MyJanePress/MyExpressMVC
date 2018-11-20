@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import { mapStateToProps } from '../actions/action';
-import { Table, Button, Input } from 'reactstrap';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import RemoveButton from './RemoveButton';
 class CustomerData extends Component {
     // state = {  }
     constructor(props) {
         super(props);
     }
     render() { 
-    let i = 0;
+        let i = 1;
       return (
-        <div className="container text-center">
+          <div className="container text-center">
+            <div className='text-right'>
+                <button
+                    className='btn btn-primary'>
+                    <Link to='/accountchange' >
+                        <span>account</span>
+                    </Link>
+                </button>
+            </div>
           <h1>User Management</h1>
-          <Table>
+          <table className='table table-bordered table-striped'>
             <thead>
               <tr>
                 <th>#</th>
@@ -20,7 +29,8 @@ class CustomerData extends Component {
                 <th>User Name</th>
                 <th>User Email</th>
                 <th>Created Date</th>
-                <th><Button type='button' color='primary'>Delete</Button></th>
+                <th>Edit</th>
+                <th>Remove</th>
               </tr>
             </thead>
             <tbody>{
@@ -32,13 +42,20 @@ class CustomerData extends Component {
                     <td>{ item.userName }</td>
                     <td>{ item.email }</td>
                     <td>{ item.createdAt }</td>
-                    <td><Input type='checkbox' /></td>
+                    <td>
+                        <button role='edit' className='btn btn-warning' key='1'>
+                            EDIT
+                        </button>
+                    </td>
+                    <td>
+                        <RemoveButton index={ i } email={ item.email}/>
+                    </td>
                   </tr>
                 )
               })
             }
             </tbody>
-          </Table>
+          </table>
         </div>
       )
     }

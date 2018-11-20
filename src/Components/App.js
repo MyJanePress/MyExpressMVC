@@ -7,6 +7,7 @@ import Home from './Home';
 import Customer from './Customer';
 import Navigation from './Navigation';
 import PrivateRouter from './PrivateRouter';
+import AccountChange from './AccountChange';
 import { mapStateToProps } from '../actions/action';
 import { withRouter } from 'react-router';
 import { hot } from 'react-hot-loader';
@@ -19,7 +20,8 @@ class App extends Component {
           <Navigation />
           <Route path="/" exact component={Home} />
           <Route path="/signup" exact component={SignUp} />
-          <Route path="/login" exact component={Login} />
+          <Route path="/login" exact component={ Login } />
+          <Route path='/accountchange' exact component={ AccountChange } />
           <PrivateRouter
             path="/customer"
             component={Customer}

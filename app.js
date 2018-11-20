@@ -38,6 +38,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/api/login', userRouter);
 app.use('/api/userinfo', userInfoRouter);
 app.use('/api/usersignup', userInfoRouter);
+app.use('/api/userupdate', userInfoRouter);
+app.use('/api/userremove', userInfoRouter);
 app.use('/profile', profileRouter);
 
 app.use((req, res) => {

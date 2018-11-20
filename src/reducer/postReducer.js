@@ -31,6 +31,8 @@ const postReducer = (state, action) => {
       return Object.assign({}, state, { userlogin: false, token:'' });
     case 'SIGNUP_ASYNC':
       return setUserloginState(state);
+    case 'UPDATE_ASYNC':
+      return setUserloginState(state);
     case 'USER_ACCESS_ASYNC':
       return setUserAdmin(state, action);
     default:

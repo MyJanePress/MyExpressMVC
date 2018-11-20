@@ -70,7 +70,7 @@ exports.userSignup = (req, res) => {
       res.status(404).send(error);
   })
 }
-exports.getContent = (req, res) => {
+exports.userLogin = (req, res) => {
   const { error } = validateCourse(req.body);
   if (error) return res.status(404).send(error.details[0].message);
   const { email, password } = req.body;
@@ -93,34 +93,44 @@ exports.getContent = (req, res) => {
       }
     })
     .catch((error) => {
-      res.status(403).send(error);
+      res.status(404).send(error);
   })
 };
 
-exports.update = (req, res) => {
-  models.user.findByPk(req.params.id)
-    .then((col) => {
-      col.update({
-        name: req.body.name,
-      });
-      // res.render('index', {results: col, title: 'Express + MySql2 + Sequelize:Update'});
-      res.end();
+exports.userInfoUpdate = (req, res) => {
+  const { udata, token } = req.body;
+  const { email, password } = jwt.decode(token).data;
+  const { userID, newpassword } = udata;
+
+  models.author.update(
+    {id: userID, password: newpassword},
+    {
+      where: {email: email},
+    }
+  )
+    .then(() => {
+      const userInfo = { email, password };
+      const token = jwt.sign({
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+        data: userInfo,
+      }, 'secret');
+      res.status(200).send(token);
     })
-    .catch((err) => {
-      console.log(err);
-      res.end();
-    });
+    .catch(error => {
+      console.log(error);
+      res.status(404).send('You were not properType');
+  })
 };
 
-exports.dataDelete = (req, res) => {
-  models.user.findByPk(req.params.id)
-    .then((col) => {
-      models.user.destroy({
-        where: {
-          id: req.params.id,
-        },
-      });
-      // res.render('index', {results: col, title: 'Express + MySql2 + Sequelize:Deleted'});
+exports.userRemove = (req, res) => {
+  const { remail } = req.body;
+  models.author.destroy({
+    where: {
+      email: remail,
+    }
+  })
+    .then(() => {
+      res.status(200).send('successed');
       res.end();
     })
     .catch((error) => {

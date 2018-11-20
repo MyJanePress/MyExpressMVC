@@ -4,6 +4,7 @@ import {
   updateProfile,
   logout,
   signup,
+  userUpdate,
   userAccessAsync,
 } from '../actions/actionCreators';
 
@@ -22,7 +23,22 @@ const userAccessApi = () => axios.request({
 const userSignupApi = authParams => axios.request({
   method: 'post', 
   url: '/api/usersignup',
-  data: authParams
+  data: authParams,
+})
+const userUpdateApi = authParams => axios.request({
+  method: 'put',
+  url: '/api/userupdate',
+  data: {
+    'udata': authParams,
+    'token': localStorage.getItem('token'),
+  },
+})
+const userRemoveApi = params => axios.request({
+  method: 'delete',
+  url: '/api/userremove',
+  data: {
+    'remail': params,
+  },
 })
 function* loginEffectSaga(action) {
   try {
@@ -49,6 +65,16 @@ function* signupSaga(action) {
     console.log(e);
   } 
 }
+function* userUpdateSaga(action) {
+  try {
+    const { data } = yield call(userUpdateApi, action.payload);
+    localStorage.removeItem('token');
+    localStorage.setItem('token', data);
+    yield put(userUpdate(data));
+  } catch (e) {
+    console.log(e);
+  }
+}
 function* userAccess() {
   try {
     const { data } = yield call(userAccessApi);
@@ -57,10 +83,18 @@ function* userAccess() {
     throw e;
   }
 }
-
+function* userRemoveSaga(email) {
+  try {
+    yield call(userRemoveApi, email.payload);
+  } catch (e) {
+    console.log(e);
+  }
+}
 export default function* loginWatcherSaga() {
   yield takeLatest('LOGIN_WATCHER', loginEffectSaga);
   yield takeLatest('LOGOUT_WATCHER', logoutEffectSaga);
   yield takeLatest('SIGNUP_WATCHER', signupSaga)
-  yield takeLatest('USER_ACCESS_WATCHER', userAccess); 
+  yield takeLatest('USER_INFO_UPDATE_WATCHER', userUpdateSaga)
+  yield takeLatest('USER_ACCESS_WATCHER', userAccess);
+  yield takeLatest('USER_REMOVE_WATCHER', userRemoveSaga);
 }

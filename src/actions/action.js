@@ -3,7 +3,9 @@ import {
   loginWatcher,
   logoutWatcher,
   signupWatcher,
+  userInfoWatcher,
   userAccessWatcher,
+  userRemoveWatcher,
 } from './actionCreators';
 
 export const mapStateToProps = state => ({
@@ -17,6 +19,8 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => bindActionCreators({
   loginWatcher,
   logoutWatcher,
+  userInfoWatcher,
   userAccessWatcher,
   signupWatcher,
+  userRemoveWatcher,
 }, dispatch);
