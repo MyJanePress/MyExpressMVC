@@ -10,8 +10,12 @@ const setUserloginState = (state) => {
     return Object.assign({}, state, { userlogin: true, token: usertoken });
   }
 }
-
-
+const removeTableContent = (state, action) => {
+  let content = [...state.userData];
+  console.log('content', content);
+  content.splice(action.payload, 1);
+  return Object.assign({}, state, { userData: content });
+}
 const setUserAdmin = (state, action) => {
   if (action.payload.access === 'root') {
     return Object.assign({}, state, { userAdmin: 'root', userData: action.payload.tblData});
@@ -35,6 +39,8 @@ const postReducer = (state, action) => {
       return setUserloginState(state);
     case 'USER_ACCESS_ASYNC':
       return setUserAdmin(state, action);
+    case 'REMOVE_CONTENT_ASYNC':
+      return removeTableContent(state, action);
     default:
       return state;
   }

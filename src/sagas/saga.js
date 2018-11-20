@@ -6,6 +6,7 @@ import {
   signup,
   userUpdate,
   userAccessAsync,
+  userTableContentRemove,
 } from '../actions/actionCreators';
 
 const loginApi = authParams => axios.request({
@@ -86,6 +87,7 @@ function* userAccess() {
 function* userRemoveSaga(email) {
   try {
     yield call(userRemoveApi, email.payload);
+    yield put(userTableContentRemove(email.payload));
   } catch (e) {
     console.log(e);
   }

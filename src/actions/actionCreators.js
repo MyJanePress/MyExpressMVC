@@ -32,6 +32,9 @@ export function signup(token) {
 export function userUpdate(token) {
   return { type: 'UPDATE_ASYNC', payload: token };
 }
+export function userTableContentRemove(key) {
+  return { type: 'REMOVE_CONTENT_ASYNC', payload: key };
+}
 export function userAccessAsync(token) {
   return { type: 'USER_ACCESS_ASYNC', payload: token };
 }
