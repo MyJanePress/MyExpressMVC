@@ -9,6 +9,7 @@ import Navigation from './Navigation';
 import PrivateRouter from './PrivateRouter';
 import { mapStateToProps } from '../actions/action';
 import { withRouter } from 'react-router';
+import { hot } from 'react-hot-loader';
 
 class App extends Component {
   render() {
@@ -30,4 +31,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+export default hot(module)(withRouter(connect(mapStateToProps)(App)));

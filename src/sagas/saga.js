@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   updateProfile,
   logout,
+  signup,
   userAccessAsync,
 } from '../actions/actionCreators';
 
@@ -18,7 +19,11 @@ const userAccessApi = () => axios.request({
     'token': localStorage.getItem('token'),
   }
 })
-
+const userSignupApi = authParams => axios.request({
+  method: 'post', 
+  url: '/api/usersignup',
+  data: authParams
+})
 function* loginEffectSaga(action) {
   try {
     const { data } = yield call(loginApi, action.payload);
@@ -28,6 +33,22 @@ function* loginEffectSaga(action) {
     console.log(e);
   }
 }
+function* logoutEffectSaga() {
+  try {
+    yield put(logout()); 
+  } catch (e) {
+    console.log(e);
+  }
+}
+function* signupSaga(action) {
+  try {
+    const { data } = yield call(userSignupApi, action.payload);
+    localStorage.setItem('token', data);
+    yield put(signup(data));
+  } catch (e) {
+    console.log(e);
+  } 
+}
 function* userAccess() {
   try {
     const { data } = yield call(userAccessApi);
@@ -36,15 +57,10 @@ function* userAccess() {
     throw e;
   }
 }
-function* logoutEffectSaga() {
-  try {
-    yield put(logout()); 
-  } catch (e) {
-    console.log(e);
-  }
-}
+
 export default function* loginWatcherSaga() {
   yield takeLatest('LOGIN_WATCHER', loginEffectSaga);
   yield takeLatest('LOGOUT_WATCHER', logoutEffectSaga);
-  yield takeLatest('USER_ACCESS_WATCHER', userAccess);
+  yield takeLatest('SIGNUP_WATCHER', signupSaga)
+  yield takeLatest('USER_ACCESS_WATCHER', userAccess); 
 }

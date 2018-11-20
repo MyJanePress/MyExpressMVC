@@ -37,16 +37,40 @@ exports.userInfo = (req, res) => {
       password: password,
     }
   })
-    .then(data => {
-      if (data.length) { 
-        res.status(200).send('root');
-      }
-      else {
-        res.status(200).send('access_denied');
-      }
+    .then(() => {
+      models.author.findAll()
+        .then(transData => {
+          if (transData.length) {
+            const sendData = {
+              tblData: transData,
+              access: 'root',
+            };
+            res.status(200).send(sendData);
+          }
+        })
     })
 }
-exports.createMemeber = (req, res) => {
+exports.userSignup = (req, res) => {
+  const { userID, username, email, password } = req.body;
+  models.author.create({
+    id: userID,
+    userName: username,
+    email: email,
+    password: password,
+  })
+    .then(() => {
+      const userInfo = { email, password };
+      const token = jwt.sign({
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+        data: userInfo,
+      }, 'secret');
+      res.status(200).send(token);
+    })
+    .catch(error => {
+      res.status(404).send(error);
+  })
+}
+exports.getContent = (req, res) => {
   const { error } = validateCourse(req.body);
   if (error) return res.status(404).send(error.details[0].message);
   const { email, password } = req.body;
@@ -57,7 +81,7 @@ exports.createMemeber = (req, res) => {
   })
     .then((data) => {
       if (data.length) {
-        const userInfo = req.body;
+        const userInfo = {email, password};
         const token = jwt.sign({
           exp: Math.floor(Date.now() / 1000) + (60 * 60),
           data: userInfo,
@@ -111,4 +135,9 @@ function validateCourse(course) {
     password: Joi.string().min(3).required(),
   };
   return Joi.validate(course, schema);
+}
+function validateCreation(course) {
+  const schema = {
+    id: Joi.string().min(3).required,
+  }
 }

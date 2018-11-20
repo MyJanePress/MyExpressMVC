@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import {
   loginWatcher,
   logoutWatcher,
+  signupWatcher,
   userAccessWatcher,
 } from './actionCreators';
 
@@ -10,10 +11,12 @@ export const mapStateToProps = state => ({
   toggle: state.toggle,
   token: state.token,
   userAdmin: state.userAdmin,
+  userData: state.userData,
 });
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   loginWatcher,
   logoutWatcher,
   userAccessWatcher,
+  signupWatcher,
 }, dispatch);

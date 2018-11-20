@@ -1,12 +1,9 @@
-import axios from 'axios';
-
 const setToggle = (state) => {
   return Object.assign({}, state, { toggle: !state.toggle });
 }
 
 const setUserloginState = (state) => {
   const usertoken = localStorage.getItem('token');
-  Object.assign({}, state, { token: usertoken });
   if (usertoken === '')
     return Object.assign({}, state, { userlogin: false, token: usertoken });
   else {
@@ -14,8 +11,13 @@ const setUserloginState = (state) => {
   }
 }
 
+
 const setUserAdmin = (state, action) => {
-  return Object.assign({}, state, { userAdmin: 'root' });
+  if (action.payload.access === 'root') {
+    return Object.assign({}, state, { userAdmin: 'root', userData: action.payload.tblData});
+  } else {
+    return Object.assign({}, state, { userAdmin: 'accss_denied'});
+  }
 }
 
 const postReducer = (state, action) => {
@@ -27,8 +29,8 @@ const postReducer = (state, action) => {
     case 'LOGOUT_ASYNC':
       localStorage.clear();
       return Object.assign({}, state, { userlogin: false, token:'' });
-    case 'SIGN_UP':
-      return axios.post('/api/users', action.payload);
+    case 'SIGNUP_ASYNC':
+      return setUserloginState(state);
     case 'USER_ACCESS_ASYNC':
       return setUserAdmin(state, action);
     default:

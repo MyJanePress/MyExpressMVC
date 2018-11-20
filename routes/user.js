@@ -7,7 +7,7 @@ const userControllers = require('../controllers/userController');
 
 router.get('/:id', userControllers.userId);
 
-router.post('/', userControllers.createMemeber);
+router.post('/', userControllers.getContent);
 
 router.put('/:id', userControllers.update);
 

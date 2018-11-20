@@ -1,15 +1,14 @@
 const path = require("path");
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: [
-    'webpack-hot-middleware/client',
-    './src/index.js'],
+  entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -22,21 +21,23 @@ module.exports = {
       {
         test: /\.css|scss$/,
         use: [
-            'style-loader',
+            {
+                loader: MiniCssExtractPlugin.loader
+          },
             'css-loader',
-            'sass-loader',
-            // 'postcss-loader'
           ]
       },
     ]
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new MiniCssExtractPlugin({
+        filename: 'Navigation.css',
+        chunkFilename: 'Navigation.css',
+    }),
   ],
   resolve:{
-    mainFiles:['index'],
     extensions: ['.js','.jsx','.css', 'scss']
   },
 };
