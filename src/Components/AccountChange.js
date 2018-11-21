@@ -24,6 +24,9 @@ class AccountChange extends Component {
       this.props.userInfoWatcher({ userID, newpassword });
       this.setState({ userID: '', confirmpassword: '', newpassword: '' });
     }
+    else {
+      
+    }
   }
 
   handleChange(event) {

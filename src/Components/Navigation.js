@@ -1,13 +1,4 @@
 import React, { Component } from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Button,
-} from 'reactstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
@@ -15,82 +6,74 @@ import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false,
-    };
-    this.toggle = this.toggle.bind(this);
   }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
-
   render() {
     return (
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Home</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="m1-auto" navbar>
+      <nav className='navbar navbar-expand-md navbar-light bg-light'>
+          <a className='navbar-brand' href='/'>
+            Home
+          </a>
+          <button
+            type='button'
+            className='navbar-toggler'
+            data-toggle='collapse'
+            data-target='#targetNavbar'>
+            <span className='navbar-toggler-icon'></span>
+          </button>
+        
+        <div
+          className='collapse navbar-collapse'
+          id='targetNavbar'>
+          <ul className='navbar-nav mr-auto'>
+            <li className='nav-item'>
               {
-                <NavItem className="m-2">
-                  <Button type="button">
-                    {
-                    this.props.userlogin === true
-                      ? (
-                        <Link
-                          to="/"
-                          className="nav_link"
-                          onClick={this.props.logoutWatcher}
-                        >
-                          <span>Log Out</span>
-                        </Link>
-                      ) : (
-                        <Link
-                          to="/login"
-                          className="nav_link"
-                        >
-                          <span>Log In</span>
-                        </Link>
-                      )
-                    }
-                  </Button>
-                </NavItem>
-                            }
-              <NavItem className="m-2">
-                <Button type="button">
-                  <Link to="/signup" className="nav_link">
-                                        Sign Up
-                  </Link>
-                </Button>
-              </NavItem>
-              <NavItem className="m-2">
-                {
                 this.props.token ? (
-                  <Button
-                    type="button"
-                    onClick={this.props.userAccessWatcher}
+                  <Link
+                  to="/customer"
+                  className="nav_link"
+                  onClick={this.props.userAccessWatcher}
                   >
-                    <Link to="/customer" className="nav_link">
-                                        Customer
-                    </Link>
-                  </Button>
-                ) : (
-                  <Button type="button">
-                    <Link to="/customer" className="nav_link">
-                                        Customer
-                    </Link>
-                  </Button>
+                    Customer
+                  </Link>
+                ): (
+                  <Link to="/customer" className="nav_link">
+                    Customer
+                  </Link>
                 )
               }
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+
+            </li>
+          </ul>
+          <ul className='navbar-nav ml-auto'>
+            <li className='nav-item m-2'>
+              <Link to="/signup" className="nav_link">
+                         Sign Up
+              </Link>
+            </li>
+            <li className='nav-item m-2'>
+            {
+              this.props.userlogin === true
+                ? (
+                  <Link
+                    to="/"
+                    className="nav_link"
+                    onClick={this.props.logoutWatcher}
+                  >
+                    <span>Log Out</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="nav_link"
+                  >
+                    <span>Log In</span>
+                  </Link>
+                )
+              }
+            </li>
+          </ul>
+        </div>
+      </nav>
     );
   }
 }
