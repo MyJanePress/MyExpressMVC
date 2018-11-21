@@ -4,9 +4,9 @@ import 'babel-polyfill';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
 import App from './Components/App';
 import configureStore from './configureStore';
-import createBrowserHistory from 'history/createBrowserHistory';
 import './styles/Navigation.scss';
 
 const customHistory = createBrowserHistory();

@@ -1,9 +1,13 @@
-$navy: #001e38;
+$link_color: rgba(255, 255, 255, 0.733);
 $green: #15b78f;
 
 div {
     .nav_link{
         text-decoration: none;
-        color:rgba(255, 255, 255, 0.733);
+        color:$link_color;
     }
+}
+.account{
+    text-decoration: none;
+    color:$link_color;
 }

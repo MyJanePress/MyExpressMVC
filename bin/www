@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 
 /**
  * Module dependencies.
@@ -22,9 +22,7 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port, () => {
-    console.log(`server is running on ${process.env.NODE_ENV || 'production'}`)
-  });
+server.listen(port);
   server.on('error', onError);
   server.on('listening on', onListening);
 

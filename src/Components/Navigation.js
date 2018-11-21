@@ -13,13 +13,27 @@ import { Link } from 'react-router-dom';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 class Navigation extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false,
+    };
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
   render() {
     return (
       <div>
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/">Home</NavbarBrand>
-          <NavbarToggler onClick={this.props.onTogglerPress} />
-          <Collapse isOpen={this.props.toggle} navbar>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="m1-auto" navbar>
               {
                 <NavItem className="m-2">
@@ -53,24 +67,25 @@ class Navigation extends Component {
                   </Link>
                 </Button>
               </NavItem>
-              <NavItem className="m-2">{
+              <NavItem className="m-2">
+                {
                 this.props.token ? (
                   <Button
                     type="button"
-                    onClick={this.props.userAccessWatcher}>
+                    onClick={this.props.userAccessWatcher}
+                  >
                     <Link to="/customer" className="nav_link">
                                         Customer
                     </Link>
                   </Button>
-                ): (
+                ) : (
                   <Button type="button">
-                  <Link to="/customer" className="nav_link">
+                    <Link to="/customer" className="nav_link">
                                         Customer
-                  </Link>
-                </Button>
+                    </Link>
+                  </Button>
                 )
               }
-                
               </NavItem>
             </Nav>
           </Collapse>
@@ -79,6 +94,5 @@ class Navigation extends Component {
     );
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

@@ -35,8 +35,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
   ],
-  resolve:{
-    mainFiles:['index'],
-    extensions: ['.js','.jsx','.css', 'scss']
-  },
+  // resolve:{
+  //   mainFiles:['index'],
+  //   extensions: ['.js','.jsx','.css', 'scss']
+  // },
 };

@@ -37,7 +37,7 @@ module.exports = {
         chunkFilename: 'Navigation.css',
     }),
   ],
-  resolve:{
-    extensions: ['.js','.jsx','.css', 'scss']
-  },
+  // resolve:{
+  //   extensions: ['.js','.jsx','.css', 'scss']
+  // },
 };

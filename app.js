@@ -19,21 +19,21 @@ import profileRouter from './routes/profile';
 import userInfoRouter from './routes/userInfo';
 
 const app = express();
-// console.log(app.get('env'));
+console.log('node env', app.get('env'));
 if (app.get('env') === 'development') {
   const compiler = webpack(webpackConfig);
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: webpackConfig.output.path,
   }));
   app.use(require('webpack-hot-middleware')(compiler));
+  app.use(logger('dev'));
+  app.use(cookieParser());
 }
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/login', userRouter);
 app.use('/api/userinfo', userInfoRouter);
@@ -47,6 +47,7 @@ app.use((req, res) => {
   let initialState = {
     userlogin: false,
     toggle: false,
+    userData:[],
     token: '',
     userAdmin: '',
   }
@@ -61,7 +62,6 @@ app.use((req, res) => {
   );
   const preloadedState = store.getState();
   res.send(renderFullPage(html, preloadedState));
-  res.end();
 });
 
 // catch 404 and forward to error handler
