@@ -26,6 +26,7 @@ class SignUp extends Component {
     this.setState({
       userID: '', username: '', email, password,
     });
+    event.target.reset();
   }
 
   handleChange(event) {
@@ -38,6 +39,13 @@ class SignUp extends Component {
         <div className="row">
           <div className="col-md-3" />
           <div className="col-md-6">
+            {
+              this.props.signupFailed === true ? (
+                <span>User another email or userID</span>
+              ): (
+                  <span></span>
+              )
+            }
             <Form className="m-5" onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label for="userId">User ID</Label>

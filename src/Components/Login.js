@@ -25,6 +25,7 @@ class Login extends Component {
     event.preventDefault();
     const { email, password } = this.state;
     this.props.loginWatcher({ email, password });
+    event.target.reset();
   }
 
   render() {
@@ -33,7 +34,14 @@ class Login extends Component {
         <div className="row">
           <div className="col-md-3" />
           <div className="col-md-6">
-            <Form className="m-5" onSubmit={this.handleSubmit}>
+            <Form className="m-5" onSubmit={ this.handleSubmit } ref='form'>
+              {
+                this.props.loginFailed ? (
+                  'Try again, Your login Informations are incorrect'
+                ) : (
+                    <span></span>
+                )
+              }
               <FormGroup>
                 <Label for="email">Email</Label>
                 <Input
@@ -41,7 +49,8 @@ class Login extends Component {
                   name="email"
                   id="email"
                   placeholder="User Email"
-                  value={this.email}
+                  value={ this.email }
+                  ref='email'
                   onChange={event => this.handleChange(event)}
                   required
                 />
@@ -60,7 +69,6 @@ class Login extends Component {
               </FormGroup>
               <Button type="submit" className="float-right m-2">
                 <span id="logState">Log In</span>
-
               </Button>
               <Button className="float-right m-2">Cancel</Button>
             </Form>

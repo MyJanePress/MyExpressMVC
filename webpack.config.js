@@ -2,12 +2,16 @@ const path = require("path");
 const webpack = require('webpack');
 
 module.exports = {
+  devtool: 'source-map',
   entry: [
-    'webpack-hot-middleware/client',
-    './src/index.js'],
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
+    './src/index.js',
+    ],
   output: {
     path: path.join(__dirname, 'public'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/',
+
   },
   mode: 'development',
   module: {
@@ -31,7 +35,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
+    // new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
   ],

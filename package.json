@@ -2,9 +2,9 @@
   "name": "express-mvc",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "lint": "eslint src --fix",
-    "pack": "webpack --mode development",
+    "pack": "webpack --mode development --config webpack.config.js",
     "build": "npm run pack && npm start",
     "production": "set NODE_ENV=production && webpack --config webpack.back.config.js && node ./public/backend.js"
   },

@@ -7,7 +7,7 @@ import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import App from './Components/App';
 import configureStore from './configureStore';
-import './styles/Navigation.scss';
+import './styles/index.scss';
 
 const customHistory = createBrowserHistory();
 

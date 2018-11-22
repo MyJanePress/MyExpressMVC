@@ -24,11 +24,9 @@ if (app.get('env') === 'development') {
   const compiler = webpack(webpackConfig);
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: webpackConfig.output.path,
+    publicPath: webpackConfig.output.publicPath,
   }));
   app.use(require('webpack-hot-middleware')(compiler));
-  app.use(logger('dev'));
-  app.use(cookieParser());
 }
 
 app.use(express.json());
@@ -45,8 +43,9 @@ app.use('/profile', profileRouter);
 app.use((req, res) => {
   const context = {};
   let initialState = {
-    userlogin: false,
-    toggle: false,
+    loginFailed: false,
+    signupFailed: false,
+    updateFailed: false,
     userData:[],
     token: '',
     userAdmin: '',

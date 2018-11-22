@@ -9,8 +9,9 @@ import {
 } from './actionCreators';
 
 export const mapStateToProps = state => ({
-  userlogin: state.userlogin,
-  toggle: state.toggle,
+  loginFailed: state.loginFailed,
+  signupFailed: state.signupFailed,
+  updateFailed: state.updateFailed,
   token: state.token,
   userAdmin: state.userAdmin,
   userData: state.userData,

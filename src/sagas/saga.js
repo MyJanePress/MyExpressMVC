@@ -1,9 +1,11 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import {
-  updateProfile,
+  login,
   logout,
+  loginFailed,
   signup,
+  signupFailed,
   userUpdate,
   userAccessAsync,
   userTableContentRemove,
@@ -44,8 +46,13 @@ const userRemoveApi = params => axios.request({
 function* loginEffectSaga(action) {
   try {
     const { data } = yield call(loginApi, action.payload);
-    localStorage.setItem('token', data);
-    yield put(updateProfile(data));
+    if (data === 'login_failed') {
+      yield put(loginFailed());
+    }
+    else {
+      localStorage.setItem('token', data);
+      yield put(login(data)); 
+    }
   } catch (e) {
     console.log(e);
   }
@@ -60,8 +67,13 @@ function* logoutEffectSaga() {
 function* signupSaga(action) {
   try {
     const { data } = yield call(userSignupApi, action.payload);
-    localStorage.setItem('token', data);
-    yield put(signup(data));
+    if (data === 'signupFailed') {
+      yield put(signupFailed());
+    } else {
+      localStorage.setItem('token', data);
+      yield put(signup(data));
+    }
+
   } catch (e) {
     console.log(e);
   }
@@ -69,11 +81,9 @@ function* signupSaga(action) {
 function* userUpdateSaga(action) {
   try {
     const { data } = yield call(userUpdateApi, action.payload);
-    localStorage.removeItem('token');
-    localStorage.setItem('token', data);
     yield put(userUpdate(data));
   } catch (e) {
-    console.log(e);
+    yield put(userUpdate('updateFailed'));
   }
 }
 function* userAccess() {

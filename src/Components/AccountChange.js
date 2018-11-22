@@ -12,21 +12,33 @@ import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 class AccountChange extends Component {
   constructor(props) {
     super(props);
-    this.state = { userID: '', confirmpassword: '', newpassword: '' };
+    this.state = {
+      userID: '',
+      username: '',
+      confirmpassword: '',
+      newpassword: '',
+      passDismatch: false,
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { userID, confirmpassword, newpassword } = this.state;
+    const { userID, username, confirmpassword, newpassword } = this.state;
     if (confirmpassword === newpassword) {
-      this.props.userInfoWatcher({ userID, newpassword });
-      this.setState({ userID: '', confirmpassword: '', newpassword: '' });
+      this.props.userInfoWatcher({ userID, username, newpassword });
+      this.setState({
+        userID: '',
+        confirmpassword: '',
+        newpassword: '',
+        passDismatch: false,
+      });
     }
     else {
-      
+      this.setState({ passDismatch: true });
     }
+    event.target.reset();
   }
 
   handleChange(event) {
@@ -40,6 +52,13 @@ class AccountChange extends Component {
       <div className="row">
         <div className="col-md-3" />
         <div className="col-md-6">
+          {
+            this.props.updateFailed === true ? (
+              <span>Your User ID is invalide</span>
+            ) : (
+              <span></span>
+            )
+          }
           <Form className="m-5" onSubmit={this.handleSubmit}>
             <FormGroup>
               <Label for="userID">User ID</Label>
@@ -54,7 +73,26 @@ class AccountChange extends Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label for="username">User Name</Label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="User Name"
+                value={this.username}
+                onChange={this.handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="confirmpassword">Confirm Password</Label>
+              {
+                this.state.passDismatch === true ? (
+                    <span className='pswd_dismatch'>Passwords are dismatch</span>
+                ): (
+                    <span></span>
+                )
+              }
               <Input
                 type="password"
                 id="confirmpassword"

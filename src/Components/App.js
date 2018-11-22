@@ -24,7 +24,7 @@ class App extends Component {
           <PrivateRouter
             path="/customer"
             component={Customer}
-            userlogin={this.props.userlogin}
+            token={this.props.token}
           />
         </div>
       </Route>

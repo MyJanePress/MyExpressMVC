@@ -18,16 +18,20 @@ export function userAccessWatcher(token) {
 export function userInfoWatcher(authParams) {
   return { type: 'USER_INFO_UPDATE_WATCHER', payload: authParams };
 }
-export function updateProfile(data) {
+export function login(data) {
   return { type: 'LOGIN_ASYNC', payload: data };
 }
-
+export function loginFailed() {
+  return { type: 'LOGIN_FAILED' };
+}
 export function logout() {
   return { type: 'LOGOUT_ASYNC' };
 }
-
 export function signup(token) {
   return { type: 'SIGNUP_ASYNC', payload: token };
+}
+export function sigupFailed() {
+  return { type: 'SIGNUP_FAILED' };
 }
 export function userUpdate(token) {
   return { type: 'UPDATE_ASYNC', payload: token };

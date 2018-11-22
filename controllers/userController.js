@@ -52,22 +52,33 @@ exports.userInfo = (req, res) => {
 }
 exports.userSignup = (req, res) => {
   const { userID, username, email, password } = req.body;
-  models.author.create({
-    id: userID,
-    userName: username,
-    email: email,
-    password: password,
+  models.author.findAll({
+    where: {
+      id: userID,
+      email: email,
+    }
   })
-    .then(() => {
-      const userInfo = { email, password };
-      const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + 60 * 60,
-        data: userInfo,
-      }, 'secret');
-      res.status(200).send(token);
+    .then(read => {
+      if (!read.length) {
+        models.author.create({
+          id: userID,
+          userName: username,
+          email: email,
+          password: password,
+        })
+          .then(() => {
+            const token = jwt.sign({
+              exp: Math.floor(Date.now() / 1000) + 60 * 60,
+              data: email,
+            }, 'secret');
+            res.status(200).send(token);
+          })
+      } else {
+        res.status(200).send('signupFailed');
+      }
     })
     .catch(error => {
-      res.status(404).send(error);
+      res.status(404).send('signupFailed');
   })
 }
 exports.userLogin = (req, res) => {
@@ -76,20 +87,20 @@ exports.userLogin = (req, res) => {
   const { email, password } = req.body;
   models.author.findAll({
     where: {
-      email:email
+      email: email,
+      password: password
     }
   })
     .then((data) => {
       if (data.length) {
-        const userInfo = {email, password};
         const token = jwt.sign({
           exp: Math.floor(Date.now() / 1000) + (60 * 60),
-          data: userInfo,
+          data: email,
         }, 'secret');
         res.status(200).send(token);
       }
       else {
-        res.status(200).send(token);
+        res.status(200).send('login_failed');
       }
     })
     .catch((error) => {
@@ -99,7 +110,7 @@ exports.userLogin = (req, res) => {
 
 exports.userInfoUpdate = (req, res) => {
   const { udata, token } = req.body;
-  const { email, password } = jwt.decode(token).data;
+  const  email  = jwt.decode(token).data;
   const { userID, newpassword } = udata;
 
   models.author.update(
@@ -109,16 +120,10 @@ exports.userInfoUpdate = (req, res) => {
     }
   )
     .then(() => {
-      const userInfo = { email, password };
-      const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + 60 * 60,
-        data: userInfo,
-      }, 'secret');
-      res.status(200).send(token);
+      res.status(200).send('successed');
     })
-    .catch(error => {
-      console.log(error);
-      res.status(404).send('You were not properType');
+    .catch(() => {
+      res.status(404).send('You were not proper Type');
   })
 };
 

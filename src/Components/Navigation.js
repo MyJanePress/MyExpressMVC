@@ -10,16 +10,16 @@ class Navigation extends Component {
   render() {
     return (
       <nav className='navbar navbar-expand-md navbar-light bg-light'>
-          <a className='navbar-brand' href='/'>
-            Home
-          </a>
-          <button
-            type='button'
-            className='navbar-toggler'
-            data-toggle='collapse'
-            data-target='#targetNavbar'>
-            <span className='navbar-toggler-icon'></span>
-          </button>
+        <li className='navbar-brand'>
+          <Link to='/' >Home</Link>
+        </li>
+        <button
+          type='button'
+          className='navbar-toggler'
+          data-toggle='collapse'
+          data-target='#targetNavbar'>
+          <span className='navbar-toggler-icon'></span>
+        </button>
         
         <div
           className='collapse navbar-collapse'
@@ -46,14 +46,19 @@ class Navigation extends Component {
           </ul>
           <ul className='navbar-nav ml-auto'>
             <li className='nav-item m-2'>
-              <Link to="/signup" className="nav_link">
-                         Sign Up
-              </Link>
+              {
+                this.props.token ? (
+                  <span></span>
+                ): (
+                  <Link to="/signup" className="nav_link">
+                    Sign Up
+                  </Link>
+                )
+              }
             </li>
             <li className='nav-item m-2'>
             {
-              this.props.userlogin === true
-                ? (
+              this.props.token ? (
                   <Link
                     to="/"
                     className="nav_link"
