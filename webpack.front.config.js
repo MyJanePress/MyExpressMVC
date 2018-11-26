@@ -1,12 +1,24 @@
 const path = require("path");
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   mode: 'production',
   module: {
@@ -19,22 +31,21 @@ module.exports = {
         },
       },
       {
-        test: /\.css|scss$/,
+        test: /\.scss|css$/,
         use: [
-            {
-                loader: MiniCssExtractPlugin.loader
-          },
-            'css-loader',
+            MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
           ]
       },
     ]
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    // new webpack.optimize.OccurrenceOrderPlugin(),
+    // new webpack.NoEmitOnErrorsPlugin(),
     new MiniCssExtractPlugin({
-        filename: 'Navigation.css',
-        chunkFilename: 'Navigation.css',
+        filename: 'style.css',
+        chunkFilename: 'style.css',
     }),
   ],
   // resolve:{

@@ -3,40 +3,45 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
+/**
+ * @todo onClick from remove <Link > and have to use lifecycle methods
+ * @todo define propTypes for each props
+ *
+ */
 class Navigation extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
-      <nav className='navbar navbar-expand-md navbar-light bg-light'>
-        <li className='navbar-brand'>
-          <Link to='/' >Home</Link>
+      <nav className="navbar navbar-expand-md navbar-light bg-light">
+        <li className="navbar-brand">
+          <Link to="/">Home</Link>
         </li>
         <button
-          type='button'
-          className='navbar-toggler'
-          data-toggle='collapse'
-          data-target='#targetNavbar'>
-          <span className='navbar-toggler-icon'></span>
+          type="button"
+          className="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#targetNavbar"
+        >
+          <span className="navbar-toggler-icon" />
         </button>
-        
+
         <div
-          className='collapse navbar-collapse'
-          id='targetNavbar'>
-          <ul className='navbar-nav mr-auto'>
-            <li className='nav-item'>
+          className="collapse navbar-collapse"
+          id="targetNavbar"
+        >
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
               {
                 this.props.token ? (
                   <Link
-                  to="/customer"
-                  className="nav_link"
-                  onClick={this.props.userAccessWatcher}
+                    to="/customer"
+                    className="nav_link"
                   >
                     Customer
                   </Link>
-                ): (
-                  <Link to="/customer" className="nav_link">
+                ) : (
+                    <Link
+                      to="/customer"
+                      className="nav_link">
                     Customer
                   </Link>
                 )
@@ -44,36 +49,35 @@ class Navigation extends Component {
 
             </li>
           </ul>
-          <ul className='navbar-nav ml-auto'>
-            <li className='nav-item m-2'>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item m-2">
               {
                 this.props.token ? (
-                  <span></span>
-                ): (
+                  null
+                ) : (
                   <Link to="/signup" className="nav_link">
                     Sign Up
                   </Link>
                 )
               }
             </li>
-            <li className='nav-item m-2'>
-            {
+            <li className="nav-item m-2">
+              {
               this.props.token ? (
-                  <Link
-                    to="/"
-                    className="nav_link"
-                    onClick={this.props.logoutWatcher}
-                  >
-                    <span>Log Out</span>
-                  </Link>
-                ) : (
-                  <Link
-                    to="/login"
-                    className="nav_link"
-                  >
-                    <span>Log In</span>
-                  </Link>
-                )
+                <Link
+                  to="/"
+                  className="nav_link"
+                >
+                  <span>Log Out</span>
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="nav_link"
+                >
+                  <span>Log In</span>
+                </Link>
+              )
               }
             </li>
           </ul>

@@ -13,7 +13,6 @@ class AccountChange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: '',
       username: '',
       confirmpassword: '',
       newpassword: '',
@@ -25,17 +24,19 @@ class AccountChange extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { userID, username, confirmpassword, newpassword } = this.state;
+    const {
+      username, oldpassword, newpassword, confirmpassword,
+    } = this.state;
     if (confirmpassword === newpassword) {
-      this.props.userInfoWatcher({ userID, username, newpassword });
+      this.props.userInfoWatcher({ username, oldpassword, newpassword });
       this.setState({
-        userID: '',
+        username: '',
+        oldpassword: '',
         confirmpassword: '',
         newpassword: '',
         passDismatch: false,
       });
-    }
-    else {
+    } else {
       this.setState({ passDismatch: true });
     }
     event.target.reset();
@@ -53,52 +54,34 @@ class AccountChange extends Component {
         <div className="col-md-3" />
         <div className="col-md-6">
           {
-            this.props.updateFailed === true ? (
-              <span>Your User ID is invalide</span>
-            ) : (
-              <span></span>
+            this.props.updateFailed === true && (
+              <span className="pswd_dismatch">Old password incorrect</span>
             )
           }
           <Form className="m-5" onSubmit={this.handleSubmit}>
             <FormGroup>
-              <Label for="userID">User ID</Label>
-              <Input
-                type="text"
-                id="userID"
-                name="userID"
-                placeholder="Enter Your new ID"
-                value={this.userID}
-                onChange={this.handleChange}
-                required
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="username">User Name</Label>
+              <Label for="username">Username</Label>
               <Input
                 type="text"
                 id="username"
                 name="username"
-                placeholder="User Name"
                 value={this.username}
                 onChange={this.handleChange}
                 required
               />
             </FormGroup>
             <FormGroup>
-              <Label for="confirmpassword">Confirm Password</Label>
+              <Label for="confirmpassword">Old Password</Label>
               {
-                this.state.passDismatch === true ? (
-                    <span className='pswd_dismatch'>Passwords are dismatch</span>
-                ): (
-                    <span></span>
+                this.state.passDismatch === true && (
+                  <span className="pswd_dismatch">Passwords are dismatch</span>
                 )
               }
               <Input
                 type="password"
-                id="confirmpassword"
-                name="confirmpassword"
-                placeholder="Confirm Password"
-                value={this.confirmpassword}
+                id="oldpassword"
+                name="oldpassword"
+                value={this.oldpassword}
                 onChange={this.handleChange}
                 required
               />
@@ -109,8 +92,18 @@ class AccountChange extends Component {
                 type="password"
                 id="newpassword"
                 name="newpassword"
-                placeholder="Enter New Password"
                 value={this.newpassword}
+                onChange={this.handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="newpassword">Confirm Password</Label>
+              <Input
+                type="password"
+                id="confirmpassword"
+                name="confirmpassword"
+                value={this.confirmpassword}
                 onChange={this.handleChange}
                 required
               />
@@ -118,7 +111,7 @@ class AccountChange extends Component {
             <Button
               className="float-right primary"
             >
-                            Confirm
+              Update
             </Button>
           </Form>
         </div>

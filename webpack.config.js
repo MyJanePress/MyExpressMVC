@@ -1,12 +1,12 @@
-const path = require("path");
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: [
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
     './src/index.js',
-    ],
+  ],
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
@@ -26,13 +26,13 @@ module.exports = {
       {
         test: /\.css|scss$/,
         use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader',
-            // 'postcss-loader'
-          ]
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+          // 'postcss-loader'
+        ],
       },
-    ]
+    ],
   },
   plugins: [
     // new webpack.optimize.OccurrenceOrderPlugin(),

@@ -1,45 +1,31 @@
-// const author = models.author;
-const Joi = require('Joi');
-const jwt = require('jsonwebtoken');
-const models = require('../models');
+import Joi from 'joi';
+import { decode, sign } from 'jsonwebtoken';
+import uuid from 'uuid-v4';
+import bcrypt from 'bcrypt';
+import { author } from '../models';
 
-exports.getAll = (req, res) => {
-  console.log(req.headers.Authurization);
+const saltRounds = 10;
 
-  models.author.findAll()
-    .then((readdata) => {
-      res.send(readdata);
-      res.end();
-    })
-    .catch((error) => {
-      res.status(404).send(error);
-    });
+const validateCourse = (course) => {
+  const schema = {
+    email: Joi.string(),
+    password: Joi.string().min(3).required(),
+  };
+  return Joi.validate(course, schema);
 };
 
-exports.userId = (req, res) => {
-  models.user.findByPk(req.params.authuParams.email)
-    .then((readdata) => {
-      // res.render('index', {results: readdata, title: 'Express + Sequelize + MySql2: GetById'});
-      res.end();
-    })
-    .catch(() => {
-      res.status(404).send('The memeber with given id was not found');
-      res.end();
-    });
-};
-
-exports.userInfo = (req, res) => {
-  const token = req.headers.token;
-  const { email, password } = jwt.decode(token).data;
-  models.author.findAll({
+export const userInfo = (req, res) => {
+  const { token } = req.headers;
+  const { email, password } = decode(token).data;
+  author.findAll({
     where: {
-      email: email,
-      password: password,
-    }
+      email,
+      password,
+    },
   })
     .then(() => {
-      models.author.findAll()
-        .then(transData => {
+      author.findAll()
+        .then((transData) => {
           if (transData.length) {
             const sendData = {
               tblData: transData,
@@ -47,112 +33,125 @@ exports.userInfo = (req, res) => {
             };
             res.status(200).send(sendData);
           }
-        })
-    })
-}
-exports.userSignup = (req, res) => {
-  const { userID, username, email, password } = req.body;
-  models.author.findAll({
+        });
+    });
+};
+export const userSignup = (req, res) => {
+  const {
+    username, email, password,
+  } = req.body;
+
+  author.findAll({
     where: {
-      id: userID,
-      email: email,
-    }
+      email,
+    },
   })
-    .then(read => {
+    .then((read) => {
       if (!read.length) {
-        models.author.create({
-          id: userID,
-          userName: username,
-          email: email,
-          password: password,
-        })
-          .then(() => {
-            const token = jwt.sign({
-              exp: Math.floor(Date.now() / 1000) + 60 * 60,
-              data: email,
-            }, 'secret');
-            res.status(200).send(token);
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+          author.create({
+            id: uuid(),
+            userName: username,
+            email,
+            password: hash,
           })
+            .then(() => {
+              const token = sign({
+                exp: Math.floor(Date.now() / 1000) + 60 * 60,
+                data: email,
+              }, 'secret');
+              res.status(200).send(token);
+            });
+        });
       } else {
         res.status(200).send('signupFailed');
       }
     })
-    .catch(error => {
+    .catch(() => {
       res.status(404).send('signupFailed');
-  })
-}
-exports.userLogin = (req, res) => {
-  const { error } = validateCourse(req.body);
-  if (error) return res.status(404).send(error.details[0].message);
-  const { email, password } = req.body;
-  models.author.findAll({
-    where: {
-      email: email,
-      password: password
-    }
-  })
-    .then((data) => {
-      if (data.length) {
-        const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60),
-          data: email,
-        }, 'secret');
-        res.status(200).send(token);
-      }
-      else {
-        res.status(200).send('login_failed');
-      }
-    })
-    .catch((error) => {
-      res.status(404).send(error);
-  })
+    });
 };
-
-exports.userInfoUpdate = (req, res) => {
+export const userLogin = (req, res) => {
+  const { error } = validateCourse(req.body);
+  if (error) {
+    res.status(404).send(error.details[0].message);
+  } else {
+    const { email, password } = req.body;
+    author.findOne({
+      where: {
+        email,
+      },
+    })
+      .then((data) => {
+        if (data) {
+          bcrypt.compare(password, data.password, (err, result) => {
+            if (result === true) {
+              const token = sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                data: email,
+              }, 'secret');
+              res.status(200).send(token);
+            } else {
+              res.status(200).send('login_failed');
+            }
+          });
+        } else {
+          res.status(200).send('login_failed');
+        }
+      })
+      .catch((err) => {
+        res.status(404).send(err);
+      });
+  }
+};
+export const userInfoUpdate = (req, res) => {
   const { udata, token } = req.body;
-  const  email  = jwt.decode(token).data;
-  const { userID, newpassword } = udata;
-
-  models.author.update(
-    {id: userID, password: newpassword},
+  const email = decode(token).data;
+  const { username, oldpassword, newpassword } = udata;
+  author.findOne(
     {
-      where: {email: email},
-    }
+      where: {
+        email,
+      },
+    },
   )
-    .then(() => {
-      res.status(200).send('successed');
+    .then((readData) => {
+      if (readData.password === oldpassword) {
+        author.update(
+          {
+            id: uuid(),
+            userName: username,
+            password: newpassword,
+          },
+          {
+            where: {
+              email,
+            },
+          },
+        );
+        res.status(200).send('successed');
+      } else {
+        res.status(200).send('updateFailed');
+      }
     })
     .catch(() => {
-      res.status(404).send('You were not proper Type');
-  })
+      res.status(404).send('updateFailed');
+    });
 };
 
-exports.userRemove = (req, res) => {
+export const userRemove = (req, res) => {
   const { remail } = req.body;
-  models.author.destroy({
+  author.destroy({
     where: {
       email: remail,
-    }
+    },
   })
     .then(() => {
       res.status(200).send('successed');
       res.end();
     })
-    .catch((error) => {
+    .catch(() => {
       res.status(404).send('The member with given id was not exit');
       res.end();
     });
 };
-
-function validateCourse(course) {
-  const schema = {
-    email: Joi.string(),
-    password: Joi.string().min(3).required(),
-  };
-  return Joi.validate(course, schema);
-}
-function validateCreation(course) {
-  const schema = {
-    id: Joi.string().min(3).required,
-  }
-}

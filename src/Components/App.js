@@ -11,6 +11,11 @@ import PrivateRouter from './PrivateRouter';
 import AccountChange from './AccountChange';
 import { mapStateToProps } from '../actions/action';
 
+
+/**
+ * @param {this.props} token-defined in store, app.js
+ *
+ */
 class App extends Component {
   render() {
     return (

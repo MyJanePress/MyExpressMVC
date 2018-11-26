@@ -16,5 +16,12 @@ module.exports = {
                 "ignoreClassFields": true
             }
         ],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "prefer-destructuring": ["error", {
+            "array": true,
+            "object": true
+          }, {
+            "enforceForRenamedProperties": false
+            }],
       }
 };

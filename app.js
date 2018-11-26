@@ -2,31 +2,36 @@ import { renderToString } from 'react-dom/server';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
-import App from './src/Components/App';
-import configureStore from './src/configureStore';
-import renderFullPage from './template/template';
 import webpack from 'webpack';
-import webpackConfig from './webpack.config';
 
 import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import renderFullPage from './template/template';
+import configureStore from './src/configureStore';
+import webpackConfig from './webpack.config';
+import App from './src/Components/App';
 
 import userRouter from './routes/user';
 import profileRouter from './routes/profile';
 import userInfoRouter from './routes/userInfo';
 
+
 const app = express();
-console.log('node env', app.get('env'));
+// console.log('node env', app.get('env'));
 if (app.get('env') === 'development') {
   const compiler = webpack(webpackConfig);
-  app.use(require('webpack-dev-middleware')(compiler, {
+  app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath,
   }));
-  app.use(require('webpack-hot-middleware')(compiler));
+  app.use(webpackHotMiddleware(compiler));
+  app.use(logger('dev'));
+  app.use(cookieParser());
 }
 
 app.use(express.json());
@@ -42,14 +47,14 @@ app.use('/profile', profileRouter);
 
 app.use((req, res) => {
   const context = {};
-  let initialState = {
+  const initialState = {
     loginFailed: false,
     signupFailed: false,
     updateFailed: false,
-    userData:[],
+    userData: [],
     token: '',
     userAdmin: '',
-  }
+  };
 
   const store = configureStore(initialState);
   const html = renderToString(

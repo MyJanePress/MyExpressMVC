@@ -30,7 +30,7 @@ export function logout() {
 export function signup(token) {
   return { type: 'SIGNUP_ASYNC', payload: token };
 }
-export function sigupFailed() {
+export function signupFailed() {
   return { type: 'SIGNUP_FAILED' };
 }
 export function userUpdate(token) {

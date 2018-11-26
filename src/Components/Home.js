@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 class Home extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    if (this.props.token) {
+      this.props.logoutWatcher(); 
+    }
+  }
   render() {
     return (
       <div className="container text-center">
@@ -10,4 +20,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

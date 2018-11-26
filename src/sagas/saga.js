@@ -11,6 +11,10 @@ import {
   userTableContentRemove,
 } from '../actions/actionCreators';
 
+/**
+ * @todo remove repeated code and create middleware
+ */
+
 const loginApi = authParams => axios.request({
   method: 'post',
   url: '/api/login',
@@ -48,10 +52,9 @@ function* loginEffectSaga(action) {
     const { data } = yield call(loginApi, action.payload);
     if (data === 'login_failed') {
       yield put(loginFailed());
-    }
-    else {
+    } else {
       localStorage.setItem('token', data);
-      yield put(login(data)); 
+      yield put(login(data));
     }
   } catch (e) {
     console.log(e);
@@ -73,7 +76,6 @@ function* signupSaga(action) {
       localStorage.setItem('token', data);
       yield put(signup(data));
     }
-
   } catch (e) {
     console.log(e);
   }

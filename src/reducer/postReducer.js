@@ -1,18 +1,20 @@
 const setUserloginState = (state, action) => {
-  if (action.payload === '') return Object.assign(
-    {},
-    state,
-    { loginFailed: true });
+  if (action.payload === '') {
+    return Object.assign(
+      {},
+      state,
+      { loginFailed: true },
+    );
+  }
 
   return Object.assign({}, state, { loginFailed: false, token: action.payload });
 };
 const userUpdate = (state, data) => {
   if (data.payload === 'successed') {
     return Object.assign({}, state, { updateFailed: false });
-  } else {
-    return Object.assign({}, state, { updateFailed: true });
   }
-}
+  return Object.assign({}, state, { updateFailed: true });
+};
 const removeTableContent = (state, action) => {
   const content = [...state.userData];
   content.splice(action.payload, 1);
@@ -37,7 +39,7 @@ const postReducer = (state, action) => {
     case 'SIGNUP_ASYNC':
       return setUserloginState(state, action);
     case 'SIGNUP_FAILED':
-      return Object.assign({}, state, {signupFailed: true});
+      return Object.assign({}, state, { signupFailed: true });
     case 'UPDATE_ASYNC':
       return userUpdate(state, action);
     case 'USER_ACCESS_ASYNC':

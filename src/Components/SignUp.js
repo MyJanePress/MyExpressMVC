@@ -9,7 +9,7 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: '', username: '', email: '', password: '',
+      username: '', email: '', password: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -18,13 +18,13 @@ class SignUp extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const {
-      userID, username, email, password,
+      username, email, password,
     } = this.state;
     this.props.signupWatcher({
-      userID, username, email, password,
+      username, email, password,
     });
     this.setState({
-      userID: '', username: '', email, password,
+      username: '', email, password,
     });
     event.target.reset();
   }
@@ -39,25 +39,12 @@ class SignUp extends Component {
         <div className="row">
           <div className="col-md-3" />
           <div className="col-md-6">
-            {
-              this.props.signupFailed === true ? (
+            {/* {
+              this.props.signupFailed === true && (
                 <span>User another email or userID</span>
-              ): (
-                  <span></span>
               )
-            }
+            } */}
             <Form className="m-5" onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <Label for="userId">User ID</Label>
-                <Input
-                  type="text"
-                  name="userID"
-                  id="userId"
-                  placeholder="ID"
-                  value={this.userID}
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
               <FormGroup>
                 <Label for="name">Username</Label>
                 <Input
@@ -70,17 +57,17 @@ class SignUp extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="userEmail">Email Address</Label>
+                <Label for="userEmail">Email</Label>
                 <Input
                   type="email"
                   name="email"
                   id="userEmail"
-                  placeholder="Email Address"
+                  placeholder="Email"
                   onChange={this.handleChange}
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="userPass">User Password</Label>
+                <Label for="userPass">Password</Label>
                 <Input
                   type="password"
                   name="password"
@@ -92,7 +79,7 @@ class SignUp extends Component {
               <Button
                 className="float-right primary"
               >
-                            Sign Up
+                  Sign Up
               </Button>
             </Form>
           </div>

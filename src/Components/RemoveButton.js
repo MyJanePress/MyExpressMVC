@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 class RemoveButton extends Component {
-  // state = {  }
   constructor(props) {
     super(props);
     this.handleTableRemove = this.handleTableRemove.bind(this);
   }
 
   handleTableRemove() {
-    const email = this.props.email;
+    const { email } = this.props;
     this.props.userRemoveWatcher(email);
   }
 
@@ -18,12 +17,12 @@ class RemoveButton extends Component {
     return (
       <div>
         <button
-          role="edit"
+          type="button"
           className="btn btn-danger"
           key="1"
           onClick={this.handleTableRemove}
         >
-                            REMOVE
+          REMOVE
         </button>
       </div>
     );

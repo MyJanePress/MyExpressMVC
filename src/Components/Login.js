@@ -34,12 +34,12 @@ class Login extends Component {
         <div className="row">
           <div className="col-md-3" />
           <div className="col-md-6">
-            <Form className="m-5" onSubmit={ this.handleSubmit } ref='form'>
+            <Form className="m-5" onSubmit={this.handleSubmit}>
               {
                 this.props.loginFailed ? (
-                  'Try again, Your login Informations are incorrect'
+                  'Try again, Your login Information are incorrect'
                 ) : (
-                    <span></span>
+                  <span />
                 )
               }
               <FormGroup>
@@ -49,8 +49,7 @@ class Login extends Component {
                   name="email"
                   id="email"
                   placeholder="User Email"
-                  value={ this.email }
-                  ref='email'
+                  value={this.email}
                   onChange={event => this.handleChange(event)}
                   required
                 />

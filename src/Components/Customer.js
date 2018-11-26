@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { mapStateToProps } from '../actions/action';
+import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import CustomerData from './CustomerData';
 
 class Customer extends Component {
+
   constructor(props) {
     super(props);
+  }
+  componentDidMount() {
+    this.props.userAccessWatcher();
   }
 
   render() {
@@ -23,4 +27,4 @@ class Customer extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Customer);
+export default connect(mapStateToProps, mapDispatchToProps)(Customer);
