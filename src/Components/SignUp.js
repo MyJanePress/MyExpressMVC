@@ -3,6 +3,7 @@ import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 class SignUp extends Component {
@@ -90,4 +91,7 @@ class SignUp extends Component {
   }
 }
 
+SignUp.propTypes = {
+  signupWatcher: PropTypes.func.isRequired,
+}
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

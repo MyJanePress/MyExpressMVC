@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
-class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
 
+class Home extends Component {
   componentDidMount() {
     if (this.props.token) {
-      this.props.logoutWatcher(); 
+      this.props.logoutWatcher();
     }
   }
+
   render() {
     return (
       <div className="container text-center">
@@ -19,5 +18,10 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  token: PropTypes.string.isRequired,
+  logoutWatcher: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

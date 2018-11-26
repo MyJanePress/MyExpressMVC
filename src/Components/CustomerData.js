@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import { mapStateToProps } from '../actions/action';
 import RemoveButton from './RemoveButton';
-import moment from 'moment';
 
 /**
  * @see mementjs.com http://mementjs.com

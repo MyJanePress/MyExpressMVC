@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import SignUp from './SignUp';
 import Login from './Login';
 import Home from './Home';
@@ -37,4 +38,7 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  token: PropTypes.string.isRequired,
+};
 export default withRouter(connect(mapStateToProps)(App));

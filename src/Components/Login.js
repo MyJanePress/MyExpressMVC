@@ -7,6 +7,7 @@ import {
   Input,
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 class Login extends Component {
@@ -77,5 +78,10 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  loginFailed: PropTypes.bool.isRequired,
+  loginWatcher: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

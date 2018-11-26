@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
-
 /**
- * @todo onClick from remove <Link > and have to use lifecycle methods
  * @todo define propTypes for each props
  *
  */
@@ -39,9 +38,10 @@ class Navigation extends Component {
                     Customer
                   </Link>
                 ) : (
-                    <Link
-                      to="/customer"
-                      className="nav_link">
+                  <Link
+                    to="/customer"
+                    className="nav_link"
+                  >
                     Customer
                   </Link>
                 )
@@ -87,4 +87,7 @@ class Navigation extends Component {
   }
 }
 
+Navigation.propTypes = {
+  token: PropTypes.string.isRequired,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

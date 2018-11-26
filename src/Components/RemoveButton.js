@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 class RemoveButton extends Component {
@@ -29,4 +30,8 @@ class RemoveButton extends Component {
   }
 }
 
+RemoveButton.propTypes = {
+  email: PropTypes.string.isRequired,
+  userRemoveWatcher: PropTypes.func.isRequired,
+}
 export default connect(mapStateToProps, mapDispatchToProps)(RemoveButton);

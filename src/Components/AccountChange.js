@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   Form,
   FormGroup,
@@ -120,4 +121,8 @@ class AccountChange extends Component {
   }
 }
 
+AccountChange.propTypes = {
+  updateFailed: PropTypes.bool.isRequired,
+  userInfoWatcher: PropTypes.func.isRequired,
+}
 export default connect(mapStateToProps, mapDispatchToProps)(AccountChange);

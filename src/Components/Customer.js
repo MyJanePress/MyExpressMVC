@@ -4,10 +4,6 @@ import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import CustomerData from './CustomerData';
 
 class Customer extends Component {
-
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this.props.userAccessWatcher();
   }
