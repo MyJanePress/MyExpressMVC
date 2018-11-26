@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import CustomerData from './CustomerData';
 
@@ -23,4 +24,8 @@ class Customer extends Component {
   }
 }
 
+Customer.propTypes = {
+  userAccessWatcher: PropTypes.func.isRequired,
+  userAdmin: PropTypes.string.isRequired,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Customer);
