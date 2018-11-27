@@ -18,7 +18,8 @@ const PrivateRouter = ({ component: Component, ...rest }) => (
           state: { from: props.location },
         }}
       />
-    ))}
+    ))
+  }
   />
 );
 

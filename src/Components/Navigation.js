@@ -30,27 +30,27 @@ class Navigation extends Component {
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               {
-                this.props.token ? (
-                  <Link
-                    to="/customer"
-                    className="nav_link"
-                  >
-                    Customer
-                  </Link>
-                ) : (
-                  <Link
-                    to="/customer"
-                    className="nav_link"
-                  >
-                    Customer
-                  </Link>
-                )
+                <Link
+                  to="/privacy"
+                  className="nav_link"
+                >
+                  PrivacyData
+                </Link>
               }
-
+            </li>
+            <li className="nav-item m-2">
+              {
+                <Link
+                  to="/customer"
+                  className="nav_link"
+                >
+                  Customer
+                </Link>
+              }
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item m-2">
+            <li className="nav-item">
               {
                 this.props.token ? (
                   null

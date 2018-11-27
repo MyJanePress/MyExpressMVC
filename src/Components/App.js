@@ -11,6 +11,7 @@ import Navigation from './Navigation';
 import PrivateRouter from './PrivateRouter';
 import AccountChange from './AccountChange';
 import { mapStateToProps } from '../actions/action';
+import PrivacyData from './PrivacyData';
 
 
 /**
@@ -27,6 +28,7 @@ class App extends Component {
           <Route path="/signup" exact component={SignUp} />
           <Route path="/login" exact component={Login} />
           <Route path="/accountchange" exact component={AccountChange} />
+          <Route path="/privacy" exact component={PrivacyData} />
           <PrivateRouter
             path="/customer"
             component={Customer}

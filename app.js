@@ -43,7 +43,7 @@ app.use('/api/userinfo', userInfoRouter);
 app.use('/api/usersignup', userInfoRouter);
 app.use('/api/userupdate', userInfoRouter);
 app.use('/api/userremove', userInfoRouter);
-app.use('/profile', profileRouter);
+app.use('/api/file', profileRouter);
 
 app.use((req, res) => {
   const context = {};

@@ -6,7 +6,8 @@ import {
   userInfoWatcher,
   userAccessWatcher,
   userRemoveWatcher,
-} from './actionCreators';
+  privacyWatcher,
+} from './watchers';
 
 export const mapStateToProps = state => ({
   loginFailed: state.loginFailed,
@@ -24,4 +25,5 @@ export const mapDispatchToProps = dispatch => bindActionCreators({
   userAccessWatcher,
   signupWatcher,
   userRemoveWatcher,
+  privacyWatcher,
 }, dispatch);

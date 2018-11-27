@@ -13,7 +13,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container text-center">
-        <h1>Create Account Or Log In</h1>
+        <h1>~~HomePage~~</h1>
       </div>
     );
   }

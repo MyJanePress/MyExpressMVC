@@ -1,27 +1,31 @@
-const express = require('express');
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import { fileUpload } from '../controllers/loadingController';
 
 const router = express.Router();
-const multer = require('multer');
-
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'upload');
-  },
+  destination: './upload',
   filename(req, file, cb) {
-    cb(null, `${file.fieldname}-${Date.now()}.jpg`);
+    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
 });
 
-const upload = multer({ storage }).single('profileImage');
+const upload = multer({ storage }).single('file');
 
-router.post('/', (req, res) => {
-  upload(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-    } else if (err) {
-      // An unknown error occurred when uploading.
-    }
-    // Everything went fine.
-  });
-});
+router.post('/', fileUpload);
+// router.post('/', (req, res) => {
+//   upload(req, res, (err) => {
+//     if (err instanceof multer.MulterError) {
+//       res.status(404).send(err);
+//       // A Multer error occurred when uploading.
+//     } else if (err) {
+//       res.status(404).send(err);
+//       // An unknown error occurred when uploading.
+//     } else {
+//       res.status(200).send();
+//     }
+//     // Everything went fine.
+//   });
+// });
 module.exports = router;
