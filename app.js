@@ -1,22 +1,15 @@
-import { renderToString } from 'react-dom/server';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { StaticRouter } from 'react-router-dom';
-import webpack from 'webpack';
-
 import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import renderFullPage from './template/template';
-import configureStore from './src/configureStore';
 import webpackConfig from './webpack.config';
-import App from './src/Components/App';
 
 import userInfoRouter from './routes/userInfo';
+import ssrRouter from './routes/rendering';
 import { tokenCheck } from './middleware/token';
 
 const app = express();
@@ -39,31 +32,10 @@ app.use(tokenCheck);
 
 app.use('/api', userInfoRouter);
 /**
- * @todo seperate ssr part
+ * @param {ssrRouter} crucial part for ServerSideRendering
  */
-app.use((req, res) => {
-  const context = {};
-  const initialState = {
-    loginFailed: false,
-    signupFailed: false,
-    updateFailed: false,
-    userData: [],
-    privateData: [],
-    token: '',
-    userAdmin: '',
-  };
+app.use(ssrRouter);
 
-  const store = configureStore(initialState);
-  const html = renderToString(
-    <Provider store={store}>
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    </Provider>,
-  );
-  const preloadedState = store.getState();
-  res.send(renderFullPage(html, preloadedState));
-});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

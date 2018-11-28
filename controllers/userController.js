@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import { sign } from 'jsonwebtoken';
 import uuid from 'uuid-v4';
 import bcrypt from 'bcrypt';
 import { author } from '../models';
@@ -132,7 +131,6 @@ export const userInfoUpdate = (req, res) => {
     res.status(404).send('updateFailed');
   });
 };
-
 export const userRemove = (req, res) => {
   const { remail } = req.body;
   author.destroy({
