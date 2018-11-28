@@ -16,10 +16,8 @@ import configureStore from './src/configureStore';
 import webpackConfig from './webpack.config';
 import App from './src/Components/App';
 
-import userRouter from './routes/user';
-import fileRouter from './routes/profile';
 import userInfoRouter from './routes/userInfo';
-import dataInfoRouter from './routes/dataInfo';
+import { tokenCheck } from './middleware/token';
 
 const app = express();
 // console.log('node env', app.get('env'));
@@ -37,15 +35,9 @@ if (app.get('env') === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(tokenCheck);
 
-app.use('/api/login', userRouter);
-app.use('/api/userinfo', userInfoRouter);
-app.use('/api/usersignup', userInfoRouter);
-app.use('/api/userupdate', userInfoRouter);
-app.use('/api/userremove', userInfoRouter);
-app.use('/api/file', fileRouter);
-app.use('/api/filedownload', fileRouter);
-app.use('/api/privatedata', dataInfoRouter);
+app.use('/api', userInfoRouter);
 /**
  * @todo seperate ssr part
  */

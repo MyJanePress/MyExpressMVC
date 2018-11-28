@@ -1,15 +1,30 @@
 import express from 'express';
-
-const userController = require('../controllers/userController');
+import {
+    userLogin,
+    userInfo,
+    userSignup,
+    userInfoUpdate,
+    userRemove,
+} from '../controllers/userController';
+import { getPrivateData } from '../controllers/dataInfo';
+import { fileDownload, fileUpload } from '../controllers/loadingController';
 
 const router = express.Router();
 
-router.get('/', userController.userInfo);
+router.get('/userinfo', userInfo);
 
-router.post('/', userController.userSignup);
+router.get('/privatedata', getPrivateData);
 
-router.put('/', userController.userInfoUpdate);
+router.get('/filedownload', fileDownload);
 
-router.delete('/', userController.userRemove);
+router.post('/usersignup', userSignup);
+
+router.post('/login', userLogin);
+
+router.post('/file', fileUpload);
+
+router.put('/userupdate', userInfoUpdate);
+
+router.delete('/userremove', userRemove);
 
 export default router;

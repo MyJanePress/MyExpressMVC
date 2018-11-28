@@ -43,6 +43,9 @@ export const uploadFileApi = file => axios.request({
 export const getPrivateDataApi = () => axios.request({
   method: 'get',
   url: '/api/privatedata',
+  headers: {
+    token: localStorage.getItem('token'),
+  },
 });
 export const downloadApi = fileId => axios.request({
   method: 'get',

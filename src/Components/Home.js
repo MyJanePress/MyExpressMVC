@@ -5,9 +5,7 @@ import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 class Home extends Component {
   componentDidMount() {
-    if (this.props.token) {
-      this.props.logoutWatcher();
-    }
+    this.props.logoutWatcher();
   }
 
   render() {

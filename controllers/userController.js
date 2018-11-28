@@ -1,8 +1,9 @@
 import Joi from 'joi';
-import { decode, sign } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import uuid from 'uuid-v4';
 import bcrypt from 'bcrypt';
 import { author } from '../models';
+import { tokenSign } from '../middleware/token';
 
 const saltRounds = 10;
 
@@ -15,26 +16,21 @@ const validateCourse = (course) => {
 };
 
 export const userInfo = (req, res) => {
-  const { token } = req.headers;
-  const { email, password } = decode(token).data;
-  author.findAll({
-    where: {
-      email,
-      password,
-    },
-  })
-    .then(() => {
-      author.findAll()
-        .then((transData) => {
-          if (transData.length) {
-            const sendData = {
-              tblData: transData,
-              access: 'root',
-            };
-            res.status(200).send(sendData);
-          }
-        });
-    });
+  const email = req.app.get('email');
+  if (email) {
+    author.findAll()
+    .then((transData) => {
+      if (transData.length) {
+        const sendData = {
+          tblData: transData,
+          access: 'root',
+        };
+        res.status(200).send(sendData);
+      }
+      }); 
+  } else {
+    res.status(200).send('failed');
+  }
 };
 export const userSignup = (req, res) => {
   const {
@@ -56,10 +52,7 @@ export const userSignup = (req, res) => {
             password: hash,
           })
             .then(() => {
-              const token = sign({
-                exp: Math.floor(Date.now() / 1000) + 60 * 60,
-                data: email,
-              }, 'secret');
+              const token = tokenSign(email);
               res.status(200).send(token);
             });
         });
@@ -86,10 +79,7 @@ export const userLogin = (req, res) => {
         if (data) {
           bcrypt.compare(password, data.password, (err, result) => {
             if (result === true) {
-              const token = sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                data: email,
-              }, 'secret');
+              const token = tokenSign(email);
               res.status(200).send(token);
             } else {
               res.status(200).send('login_failed');
@@ -105,9 +95,10 @@ export const userLogin = (req, res) => {
   }
 };
 export const userInfoUpdate = (req, res) => {
-  const { udata, token } = req.body;
-  const email = decode(token).data;
+  const { udata } = req.body;
+  const email = req.app.get('email');
   const { username, oldpassword, newpassword } = udata;
+
   author.findOne(
     {
       where: {
@@ -115,28 +106,31 @@ export const userInfoUpdate = (req, res) => {
       },
     },
   )
-    .then((readData) => {
-      if (readData.password === oldpassword) {
-        author.update(
-          {
-            id: uuid(),
-            userName: username,
-            password: newpassword,
-          },
-          {
-            where: {
-              email,
+  .then((readData) => {
+    bcrypt.compare(oldpassword, readData.password, (err,   result) => {
+      if (result === true) {
+        bcrypt.hash(newpassword, saltRounds, (err, hash) => {
+          author.update(
+            {
+              userName: username,
+              password: hash,
             },
-          },
-        );
+            {
+              where: {
+                email,
+              },
+            },
+          );
+        })
         res.status(200).send('successed');
       } else {
         res.status(200).send('updateFailed');
       }
-    })
-    .catch(() => {
-      res.status(404).send('updateFailed');
     });
+  })
+  .catch(() => {
+    res.status(404).send('updateFailed');
+  });
 };
 
 export const userRemove = (req, res) => {

@@ -10,8 +10,8 @@ export function signupWatcher(authParams) {
 export function userRemoveWatcher(email) {
   return { type: 'USER_REMOVE_WATCHER', payload: email };
 }
-export function userAccessWatcher(token) {
-  return { type: 'USER_ACCESS_WATCHER', payload: token };
+export function userAccessWatcher() {
+  return { type: 'USER_ACCESS_WATCHER'};
 }
 export function privateDataWatcher() {
   return { type: 'PRIVATE_FILE_DATA_WATCHER'};
