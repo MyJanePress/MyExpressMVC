@@ -8,6 +8,7 @@ import {
   userUpdate,
   userAccessAsync,
   userTableContentRemove,
+  privateDataAsync,
 } from '../actions/actionCreators';
 import {
   loginApi,
@@ -16,6 +17,8 @@ import {
   userAccessApi,
   userRemoveApi,
   uploadFileApi,
+  getPrivateDataApi,
+  downloadApi,
 } from './ajaxApi';
 
 export function* loginEffectSaga(action) {
@@ -67,10 +70,11 @@ export function* userAccess() {
     throw e;
   }
 }
-export function* userRemoveSaga(email) {
+export function* userRemoveSaga(data) {
+  console.log('remove data', data);
   try {
-    yield call(userRemoveApi, email.payload);
-    yield put(userTableContentRemove(email.payload));
+    yield call(userRemoveApi, data.payload.email);
+    yield put(userTableContentRemove(data.payload.index));
   } catch (e) {
     console.log(e);
   }
@@ -78,6 +82,23 @@ export function* userRemoveSaga(email) {
 export function* uploadFile(file) {
   try {
     yield call(uploadFileApi, file.payload);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export function* privateDataSaga() {
+  try {
+    const { data } = yield call(getPrivateDataApi);
+    yield put(privateDataAsync(data));
+  } catch (e) {
+    console.log(e);
+  }
+}
+export function* downloadSaga(fileId) {
+  try {
+    const res = yield call(downloadApi, fileId);
+    console.log(res);
   } catch (e) {
     console.log(e);
   }

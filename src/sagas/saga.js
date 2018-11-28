@@ -7,19 +7,13 @@ import {
   userAccess,
   userRemoveSaga,
   uploadFile,
+  privateDataSaga,
+  downloadSaga,
 } from './funcgen';
 
 /**
  * @todo remove repeated code and use middleware
  */
-
-
-// const ajaxApi = (method, url, authParams) => axios.request({
-//   method,
-//   url,
-//   data: authParams,
-// });
-
 export default function* loginWatcherSaga() {
   yield takeLatest('LOGIN_WATCHER', loginEffectSaga);
   yield takeLatest('LOGOUT_WATCHER', logoutEffectSaga);
@@ -28,4 +22,6 @@ export default function* loginWatcherSaga() {
   yield takeLatest('USER_ACCESS_WATCHER', userAccess);
   yield takeLatest('USER_REMOVE_WATCHER', userRemoveSaga);
   yield takeLatest('UPLOAD_FILE_WATCHER', uploadFile);
+  yield takeLatest('PRIVATE_FILE_DATA_WATCHER', privateDataSaga);
+  yield takeLatest('DOWNLOAD_FILE_WATCHER', downloadSaga);
 }

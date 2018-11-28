@@ -10,7 +10,7 @@ import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 class Navigation extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-light bg-light">
+      <nav className="navbar navbar-expand-md navbar-light  bg-color">
         <li className="navbar-brand">
           <Link to="/">Home</Link>
         </li>
@@ -28,7 +28,7 @@ class Navigation extends Component {
           id="targetNavbar"
         >
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
+            <li className="nav-item m-2">
               {
                 <Link
                   to="/privacy"
@@ -50,7 +50,7 @@ class Navigation extends Component {
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
+            <li className="nav-item m-2">
               {
                 this.props.token ? (
                   null

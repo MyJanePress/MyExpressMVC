@@ -17,6 +17,7 @@ const userUpdate = (state, data) => {
 };
 const removeTableContent = (state, action) => {
   const content = [...state.userData];
+  console.log(content);
   content.splice(action.payload, 1);
   return Object.assign({}, state, { userData: content });
 };
@@ -27,6 +28,9 @@ const setUserAdmin = (state, action) => {
   return Object.assign({}, state, { userAdmin: 'accss_denied' });
 };
 
+const privateDataTable = (state, action) => {
+  return Object.assign({}, state, { privateData: action.payload });
+}
 const postReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN_ASYNC':
@@ -46,6 +50,8 @@ const postReducer = (state, action) => {
       return setUserAdmin(state, action);
     case 'REMOVE_CONTENT_ASYNC':
       return removeTableContent(state, action);
+    case 'PRIVATE_DATA_ASYNC':
+      return privateDataTable(state, action);
     default:
       return state;
   }

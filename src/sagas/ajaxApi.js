@@ -40,3 +40,14 @@ export const uploadFileApi = file => axios.request({
     console.log('upload progress' + Math.round((progressEvent.loaded / progressEvent.total) * 100))
   }
 });
+export const getPrivateDataApi = () => axios.request({
+  method: 'get',
+  url: '/api/privatedata',
+});
+export const downloadApi = fileId => axios.request({
+  method: 'get',
+  url: '/api/filedownload',
+  headers: {
+    ID: fileId.payload,
+  },
+});

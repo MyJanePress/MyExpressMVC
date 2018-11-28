@@ -10,8 +10,8 @@ class RemoveButton extends Component {
   }
 
   handleTableRemove() {
-    const { email } = this.props;
-    this.props.userRemoveWatcher(email);
+    const { email, index } = this.props;
+    this.props.userRemoveWatcher({ email, index });
   }
 
   render() {

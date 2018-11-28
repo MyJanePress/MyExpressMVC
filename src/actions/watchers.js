@@ -13,10 +13,15 @@ export function userRemoveWatcher(email) {
 export function userAccessWatcher(token) {
   return { type: 'USER_ACCESS_WATCHER', payload: token };
 }
-
+export function privateDataWatcher() {
+  return { type: 'PRIVATE_FILE_DATA_WATCHER'};
+}
 export function userInfoWatcher(authParams) {
   return { type: 'USER_INFO_UPDATE_WATCHER', payload: authParams };
 }
 export function privacyWatcher(authParams) {
   return { type: 'UPLOAD_FILE_WATCHER', payload: authParams };
+}
+export function downloadWatcher(fileId) {
+  return { type: 'DOWNLOAD_FILE_WATCHER', payload: fileId };
 }

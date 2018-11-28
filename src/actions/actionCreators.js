@@ -16,9 +16,12 @@ export function signupFailed() {
 export function userUpdate(token) {
   return { type: 'UPDATE_ASYNC', payload: token };
 }
-export function userTableContentRemove(key) {
-  return { type: 'REMOVE_CONTENT_ASYNC', payload: key };
+export function userTableContentRemove(index) {
+  return { type: 'REMOVE_CONTENT_ASYNC', payload: index };
 }
 export function userAccessAsync(token) {
   return { type: 'USER_ACCESS_ASYNC', payload: token };
+}
+export function privateDataAsync(data) {
+  return { type: 'PRIVATE_DATA_ASYNC', payload: data };
 }

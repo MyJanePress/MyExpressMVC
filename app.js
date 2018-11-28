@@ -17,9 +17,9 @@ import webpackConfig from './webpack.config';
 import App from './src/Components/App';
 
 import userRouter from './routes/user';
-import profileRouter from './routes/profile';
+import fileRouter from './routes/profile';
 import userInfoRouter from './routes/userInfo';
-
+import dataInfoRouter from './routes/dataInfo';
 
 const app = express();
 // console.log('node env', app.get('env'));
@@ -43,8 +43,12 @@ app.use('/api/userinfo', userInfoRouter);
 app.use('/api/usersignup', userInfoRouter);
 app.use('/api/userupdate', userInfoRouter);
 app.use('/api/userremove', userInfoRouter);
-app.use('/api/file', profileRouter);
-
+app.use('/api/file', fileRouter);
+app.use('/api/filedownload', fileRouter);
+app.use('/api/privatedata', dataInfoRouter);
+/**
+ * @todo seperate ssr part
+ */
 app.use((req, res) => {
   const context = {};
   const initialState = {
@@ -52,6 +56,7 @@ app.use((req, res) => {
     signupFailed: false,
     updateFailed: false,
     userData: [],
+    privateData: [],
     token: '',
     userAdmin: '',
   };

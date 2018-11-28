@@ -23,3 +23,11 @@ export const fileUpload = (req, res) => {
         // Everything went fine.
       });
 }
+/**
+ * 
+ * @todo implement the download  
+ */
+export const fileDownload = (req, res) => {
+    res.status(200).download('upload/file-1543271588556-.mp3', 'music.mp3');
+    
+}

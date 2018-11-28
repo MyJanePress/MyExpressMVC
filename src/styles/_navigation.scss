@@ -1,14 +1,16 @@
-$link_color: rgba(58, 58, 58, 0.733);
-$red: rgb(255,0,0);
-$green: #15b78f;
+$link_color: rgba(230, 225, 225, 0.733);
+$navbar_color:#3d4483;
 
-div {
-    .nav_link {
+nav {
+    background-color: $navbar_color;
+    div {
+        .nav_link {
+            text-decoration: none;
+            color:$link_color;
+        }
+    }
+    .account {
         text-decoration: none;
         color:$link_color;
     }
-}
-.account {
-    text-decoration: none;
-    color:$link_color;
 }
