@@ -11,19 +11,14 @@ import {
   privateDataAsync,
 } from '../actions/actionCreators';
 import {
-  loginApi,
-  userSignupApi,
-  userUpdateApi,
-  userAccessApi,
-  userRemoveApi,
+  ajaxApi,
   uploadFileApi,
-  getPrivateDataApi,
-  downloadApi,
 } from './ajaxApi';
 
 export function* loginEffectSaga(action) {
   try {
-    const { data } = yield call(loginApi, action.payload);
+    const { data } =
+      yield call(ajaxApi, 'POST', '/api/login', { ...action.payload });
     if (data === 'login_failed') {
       yield put(loginFailed());
     } else {
@@ -43,7 +38,8 @@ export function* logoutEffectSaga() {
 }
 export function* signupSaga(action) {
   try {
-    const { data } = yield call(userSignupApi, action.payload);
+    const { data } = yield call(ajaxApi, 'POST', '/api/usersignup', { ...action.payload });
+    
     if (data === 'signupFailed') {
       yield put(signupFailed());
     } else {
@@ -55,8 +51,12 @@ export function* signupSaga(action) {
   }
 }
 export function* userUpdateSaga(action) {
+  const payload = {
+    udata: action.payload,
+    token: localStorage.getItem('token'),
+  }
   try {
-    const { data } = yield call(userUpdateApi, action.payload);
+    const { data } = yield call(ajaxApi, 'PUT', '/api/userupdate', payload);
     yield put(userUpdate(data));
   } catch (e) {
     yield put(userUpdate('updateFailed'));
@@ -64,16 +64,21 @@ export function* userUpdateSaga(action) {
 }
 export function* userAccess() {
   try {
-    const { data } = yield call(userAccessApi);
+    const payload = {
+      token: localStorage.getItem('token')
+    }
+    const { data } = yield call(ajaxApi, 'GET', '/api/userinfo', payload);
     yield put(userAccessAsync(data));
   } catch (e) {
     throw e;
   }
 }
 export function* userRemoveSaga(data) {
-  console.log('remove data', data);
+  const payload = {
+    remail: data.payload.email,
+  }
   try {
-    yield call(userRemoveApi, data.payload.email);
+    yield call(ajaxApi, 'DELETE', '/api/userremove', payload);
     yield put(userTableContentRemove(data.payload.index));
   } catch (e) {
     console.log(e);
@@ -88,16 +93,22 @@ export function* uploadFile(file) {
 }
 
 export function* privateDataSaga() {
+  const payload = {
+    token: localStorage.getItem('token'),
+  }
   try {
-    const { data } = yield call(getPrivateDataApi);
+    const { data } = yield call(ajaxApi, 'GET', '/api/privatedata', payload);
     yield put(privateDataAsync(data));
   } catch (e) {
     console.log(e);
   }
 }
 export function* downloadSaga(fileId) {
+  const payload = {
+    ID: fileId.payload,
+  }
   try {
-    const res = yield call(downloadApi, fileId);
+    const res = yield call(ajaxApi, 'GET', 'api/filedownload', payload);
     console.log(res);
   } catch (e) {
     console.log(e);
