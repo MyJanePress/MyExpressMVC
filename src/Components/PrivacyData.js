@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import DownloadButton from './DownloadButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileUpload, faFile } from '@fortawesome/free-solid-svg-icons';
 
 class PrivacyData extends Component {
   constructor(props) {
@@ -28,7 +30,7 @@ class PrivacyData extends Component {
   }
   render() {
     return (
-      <div className='container text-right m-1'>
+      <div className='container text-right'>
         <form className="form-group" onSubmit={this.handleSubmit}>
           <input
             style={{display: 'none'}}
@@ -37,16 +39,21 @@ class PrivacyData extends Component {
             onChange={ this.handleChange }
             ref={fileInput => this.fileInput = fileInput}
           />
-          <div className='col-offset-2'>
+          <div className='col-md-offset-2 margin-top'>
             <button
               className='btn btn-primary'
               onClick={() => this.fileInput.click()}
-            >load File
+            >
+              <FontAwesomeIcon icon={faFile} />
+              &nbsp;&nbsp;load File
             </button>
             <button
               type="submit"
               className="btn btn-default"
-            >Upload</button>
+            >
+            <FontAwesomeIcon icon={faFileUpload} />
+            &nbsp;&nbsp;Upload
+              </button>
           </div>
           
         </form>

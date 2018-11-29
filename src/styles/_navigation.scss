@@ -1,6 +1,5 @@
 $link_color: rgba(230, 225, 225, 0.733);
 $navbar_color:#3d4483;
-
 nav {
     background-color: $navbar_color;
     div {
@@ -10,6 +9,10 @@ nav {
         }
     }
     .account {
+        text-decoration: none;
+        color:$link_color;
+    }
+    .home{
         text-decoration: none;
         color:$link_color;
     }

@@ -18,22 +18,6 @@ export const tokenCheck = (req, res, next) => {
     } else {
         next();
     }
-    // console.log(token);
-    // if (url !== '/' && url !== '/api/login' && url !== '/api/signup') {
-    //     if (method === 'GET') {
-    //         const { token } = req.headers;
-    //         req.app.set('email', tokenDecode(token));
-    //         next();
-    //     } else if (method === 'PUT') {
-    //         const { token } = req.body;
-    //         req.app.set('email', tokenDecode(token));
-    //         next();
-    //     } else {
-    //         next();
-    //     }
-    // } else {
-    //     next();
-    // }
 }
 export const tokenSign = email => {
     return sign({

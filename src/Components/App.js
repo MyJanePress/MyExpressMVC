@@ -33,7 +33,6 @@ class App extends Component {
             component={ PrivacyData }
             token={this.props.token}
           />
-          {/* <Route path="/privacy" exact component={PrivacyData} /> */}
           <PrivateRouter
             path="/customer"
             component={Customer}
@@ -48,4 +47,6 @@ class App extends Component {
 App.propTypes = {
   token: PropTypes.string.isRequired,
 };
+
+
 export default withRouter(connect(mapStateToProps)(App));

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
 class DownloadButton extends Component {
     constructor(props) {
         super(props);
@@ -16,10 +18,11 @@ class DownloadButton extends Component {
             <div>
                 <button
                     type="button"
-                    className="btn btn-default"
+                    className="btn btn-default btn-color"
                     onClick={this.handleDownload}
                 >
-                    DOWNLOAD
+                    <FontAwesomeIcon icon={faFileDownload} />
+                    &nbsp;&nbsp;DOWNLOAD
                 </button>
             </div>
          );

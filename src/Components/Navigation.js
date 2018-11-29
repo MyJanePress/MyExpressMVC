@@ -2,17 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
+import {
+  faHome,
+  faSignInAlt,
+  faSignOutAlt,
+  faUser
+} from '@fortawesome/free-solid-svg-icons';
+
 /**
  * @todo define propTypes for each props
+ * @see https://fontawesome.com/icons?d=gallery
  *
  */
 class Navigation extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-md navbar-light  bg-color">
-        <li className="navbar-brand">
-          <Link to="/">Home</Link>
+        <li className="navbar-brand m-2 home">
+          <Link to="/">
+            <FontAwesomeIcon icon={faHome}/>Home
+          </Link>
         </li>
         <button
           type="button"
@@ -55,9 +66,10 @@ class Navigation extends Component {
                 this.props.token ? (
                   null
                 ) : (
-                  <Link to="/signup" className="nav_link">
-                    Sign Up
-                  </Link>
+                    <Link to="/signup" className="nav_link">
+                      <FontAwesomeIcon icon={faUser}/>
+                      &nbsp;&nbsp;Sign Up
+                    </Link>
                 )
               }
             </li>
@@ -68,14 +80,18 @@ class Navigation extends Component {
                   to="/"
                   className="nav_link"
                 >
-                  <span>Log Out</span>
+                    <span>
+                      <FontAwesomeIcon icon={ faSignOutAlt }/>
+                      &nbsp;&nbsp;Log Out
+                    </span>
                 </Link>
               ) : (
                 <Link
                   to="/login"
                   className="nav_link"
                 >
-                  <span>Log In</span>
+                      <FontAwesomeIcon icon={ faSignInAlt } />
+                      &nbsp;&nbsp;Log In
                 </Link>
               )
               }

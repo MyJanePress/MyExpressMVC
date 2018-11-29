@@ -28,7 +28,10 @@ class Login extends Component {
     this.props.loginWatcher({ email, password });
     event.target.reset();
   }
-
+  /**
+   * @see https://scotch.io/tutorials/using-font-awesome-5-with-react 
+   * react fontawesome
+   */
   render() {
     return (
       <div>
@@ -37,10 +40,10 @@ class Login extends Component {
           <div className="col-md-6">
             <Form className="m-5" onSubmit={this.handleSubmit}>
               {
-                this.props.loginFailed ? (
-                  'Try again, Your login Information are incorrect'
-                ) : (
-                  <span />
+                this.props.loginFailed && (
+                  <span>
+                    The Email or Password is incorrect
+                  </span>
                 )
               }
               <FormGroup>
@@ -49,7 +52,7 @@ class Login extends Component {
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="User Email"
+                  placeholder="Email"
                   value={this.email}
                   onChange={event => this.handleChange(event)}
                   required
@@ -62,15 +65,16 @@ class Login extends Component {
                   name="password"
                   id="password"
                   value={this.password}
-                  placeholder="User Password"
+                  placeholder="Password"
                   onChange={event => this.handleChange(event)}
                   required
                 />
               </FormGroup>
-              <Button type="submit" className="float-right m-2">
-                <span id="logState">Log In</span>
-              </Button>
-              <Button className="float-right m-2">Cancel</Button>
+              <FormGroup>
+                <Button type="submit" className="float-right m-2">
+                  <span id="logState">Log In</span>
+                </Button>
+              </FormGroup>
             </Form>
           </div>
         </div>
