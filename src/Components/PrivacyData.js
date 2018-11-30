@@ -12,7 +12,6 @@ class PrivacyData extends Component {
     super(props);
     this.state = {
       file: null,
-      filename:null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -44,7 +43,7 @@ class PrivacyData extends Component {
             type="file"
             name="file"
             onChange={this.handleChange}
-            ref={(fileInput) => this.fileInput = fileInput}
+            ref={(fileInput) => { this.fileInput = fileInput; }}
           />
           <div className="col-md-offset-2 margin-top">
             <button
@@ -107,6 +106,6 @@ class PrivacyData extends Component {
 PrivacyData.propTypes = {
   privacyWatcher: PropTypes.func.isRequired,
   privateDataWatcher: PropTypes.func.isRequired,
-  privateData: PropTypes.array.isRequired,
+  privateData: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PrivacyData);

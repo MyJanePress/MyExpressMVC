@@ -56,6 +56,6 @@ class CustomerData extends Component {
   }
 }
 CustomerData.propTypes = {
-  userData: PropTypes.array.isRequired,
+  userData: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default connect(mapStateToProps)(CustomerData);

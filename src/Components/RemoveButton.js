@@ -22,7 +22,7 @@ class RemoveButton extends Component {
   handleTableRemove() {
     const { email, index } = this.props;
     const { modal } = this.state;
-    modal && this.props.userRemoveWatcher({ email, index });
+    if (modal) this.props.userRemoveWatcher({ email, index });
     this.setState({ modal: true });
   }
 
