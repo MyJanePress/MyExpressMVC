@@ -12,11 +12,11 @@ class RemoveModal extends Component {
                 className="close"
                 data-dismiss="modal"
               >
-                  &times;
+                Remove
               </button>
             </div>
             <div className="container modal-body">
-                This might be occur serious problem.
+                Do you want permanently remove the selected item?
             </div>
           </div>
         </div>
