@@ -10,20 +10,25 @@ class RemoveButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      isOpen: false,
     };
-    this.handleTableRemove = this.handleTableRemove.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   /**
-   * &times; strange
+   * &times; symbol "X"
    * after double pressed, screen is can not be controlled
    */
-  handleTableRemove() {
-    const { email, index } = this.props;
-    const { modal } = this.state;
-    if (modal) this.props.userRemoveWatcher({ email, index });
-    this.setState({ modal: true });
+  // toggleModal = () => {
+  //   // const { email, index } = this.props;
+  //   // const { modal } = this.state;
+  //   // if (modal) this.props.userRemoveWatcher({ email, index });
+  //   this.setState({ isOpen: !this.state.isOpen });
+  // }
+  toggleModal() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
 
   render() {
@@ -32,15 +37,19 @@ class RemoveButton extends Component {
         <button
           type="button"
           className="btn btn-danger"
-          data-target="#removeModal"
-          data-toggle="modal"
-          onClick={this.handleTableRemove}
-          key="1"
+          onClick={this.toggleModal}
         >
           <FontAwesomeIcon icon={faTrashAlt} />
           &nbsp;&nbsp;REMOVE
         </button>
-        <RemoveModal />
+        <RemoveModal
+          show={ this.state.isOpen }
+          onClose={ this.toggleModal }
+          email={this.props.email}
+        >
+          Do you want to permanently delete the selected items?
+        </RemoveModal>
+          
       </div>
     );
   }
