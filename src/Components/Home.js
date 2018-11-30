@@ -18,7 +18,6 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  token: PropTypes.string.isRequired,
   logoutWatcher: PropTypes.func.isRequired,
 };
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { serverSideRendering } from '../controllers/ssrendering';
+import serverSideRendering from '../controllers/ssrendering';
 
 const router = express.Router();
 

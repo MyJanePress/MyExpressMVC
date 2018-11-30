@@ -1,0 +1,23 @@
+$message-failed-color:rgba(#af2b2b, 0.7);
+$message-success-color:rgba(#2baf6d, .7);
+$outline-color:darken(red, 20%);
+div {
+    .message-failed-style{
+        background-color: $message-failed-color;
+        color:rgb(240,240,240);
+        padding-top:1em;
+        padding-bottom: 1em;
+        border-radius: 10px;
+        margin-bottom: 2%;
+        width:100%;
+    }
+    .message-success-style {
+        background-color: $message-success-color;
+        color:rgb(240,240,240);
+        padding-top:1em;
+        padding-bottom: 1em;
+        border-radius: 10px;
+        margin-bottom: 2%;
+        width:100%;
+    }
+}

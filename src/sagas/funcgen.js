@@ -17,8 +17,8 @@ import {
 
 export function* loginEffectSaga(action) {
   try {
-    const { data } =
-      yield call(ajaxApi, 'POST', '/api/login', { ...action.payload });
+    const { data } = yield call(ajaxApi, 'POST', '/api/login',
+      { ...action.payload });
     if (data === 'login_failed') {
       yield put(loginFailed());
     } else {
@@ -39,7 +39,6 @@ export function* logoutEffectSaga() {
 export function* signupSaga(action) {
   try {
     const { data } = yield call(ajaxApi, 'POST', '/api/usersignup', { ...action.payload });
-    
     if (data === 'signupFailed') {
       yield put(signupFailed());
     } else {
@@ -54,7 +53,7 @@ export function* userUpdateSaga(action) {
   const payload = {
     udata: action.payload,
     token: localStorage.getItem('token'),
-  }
+  };
   try {
     const { data } = yield call(ajaxApi, 'PUT', '/api/userupdate', payload);
     yield put(userUpdate(data));
@@ -65,8 +64,8 @@ export function* userUpdateSaga(action) {
 export function* userAccess() {
   try {
     const payload = {
-      token: localStorage.getItem('token')
-    }
+      token: localStorage.getItem('token'),
+    };
     const { data } = yield call(ajaxApi, 'GET', '/api/userinfo', payload);
     yield put(userAccessAsync(data));
   } catch (e) {
@@ -76,7 +75,7 @@ export function* userAccess() {
 export function* userRemoveSaga(data) {
   const payload = {
     remail: data.payload.email,
-  }
+  };
   try {
     yield call(ajaxApi, 'DELETE', '/api/userremove', payload);
     yield put(userTableContentRemove(data.payload.index));
@@ -95,7 +94,7 @@ export function* uploadFile(file) {
 export function* privateDataSaga() {
   const payload = {
     token: localStorage.getItem('token'),
-  }
+  };
   try {
     const { data } = yield call(ajaxApi, 'GET', '/api/privatedata', payload);
     yield put(privateDataAsync(data));
@@ -106,7 +105,7 @@ export function* privateDataSaga() {
 export function* downloadSaga(fileId) {
   const payload = {
     ID: fileId.payload,
-  }
+  };
   try {
     const res = yield call(ajaxApi, 'GET', 'api/filedownload', payload);
     console.log(res);

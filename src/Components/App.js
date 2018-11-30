@@ -27,10 +27,11 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/login" exact component={Login} />
-          <Route path="/accountchange" exact component={ AccountChange } />
+          <Route path="/accountchange" exact component={AccountChange} />
           <PrivateRouter
-            path="/privacy" exact
-            component={ PrivacyData }
+            path="/privacy"
+            exact
+            component={PrivacyData}
             token={this.props.token}
           />
           <PrivateRouter

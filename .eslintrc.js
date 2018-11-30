@@ -5,6 +5,7 @@ module.exports = {
         "window": true,
         "document": true,
         "localStorage": true,
+        "FormData": true,
     },
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

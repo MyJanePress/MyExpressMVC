@@ -11,10 +11,10 @@ export function userRemoveWatcher(email) {
   return { type: 'USER_REMOVE_WATCHER', payload: email };
 }
 export function userAccessWatcher() {
-  return { type: 'USER_ACCESS_WATCHER'};
+  return { type: 'USER_ACCESS_WATCHER' };
 }
 export function privateDataWatcher() {
-  return { type: 'PRIVATE_FILE_DATA_WATCHER'};
+  return { type: 'PRIVATE_FILE_DATA_WATCHER' };
 }
 export function userInfoWatcher(authParams) {
   return { type: 'USER_INFO_UPDATE_WATCHER', payload: authParams };

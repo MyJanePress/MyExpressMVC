@@ -93,5 +93,5 @@ class SignUp extends Component {
 
 SignUp.propTypes = {
   signupWatcher: PropTypes.func.isRequired,
-}
+};
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { mapStateToProps } from '../actions/action';
 import RemoveButton from './RemoveButton';
 
@@ -54,5 +55,7 @@ class CustomerData extends Component {
     );
   }
 }
-
+CustomerData.propTypes = {
+  userData: PropTypes.array.isRequired,
+};
 export default connect(mapStateToProps)(CustomerData);

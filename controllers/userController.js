@@ -18,15 +18,15 @@ export const userInfo = (req, res) => {
   const email = req.app.get('email');
   if (email) {
     author.findAll()
-    .then((transData) => {
-      if (transData.length) {
-        const sendData = {
-          tblData: transData,
-          access: 'root',
-        };
-        res.status(200).send(sendData);
-      }
-      }); 
+      .then((transData) => {
+        if (transData.length) {
+          const sendData = {
+            tblData: transData,
+            access: 'root',
+          };
+          res.status(200).send(sendData);
+        }
+      });
   } else {
     res.status(200).send('failed');
   }
@@ -105,31 +105,31 @@ export const userInfoUpdate = (req, res) => {
       },
     },
   )
-  .then((readData) => {
-    bcrypt.compare(oldpassword, readData.password, (err,   result) => {
-      if (result === true) {
-        bcrypt.hash(newpassword, saltRounds, (err, hash) => {
-          author.update(
-            {
-              userName: username,
-              password: hash,
-            },
-            {
-              where: {
-                email,
+    .then((readData) => {
+      bcrypt.compare(oldpassword, readData.password, (err, result) => {
+        if (result === true) {
+          bcrypt.hash(newpassword, saltRounds, (_err, hash) => {
+            author.update(
+              {
+                userName: username,
+                password: hash,
               },
-            },
-          );
-        })
-        res.status(200).send('successed');
-      } else {
-        res.status(200).send('updateFailed');
-      }
+              {
+                where: {
+                  email,
+                },
+              },
+            );
+          });
+          res.status(200).send('successed');
+        } else {
+          res.status(200).send('updateFailed');
+        }
+      });
+    })
+    .catch(() => {
+      res.status(404).send('updateFailed');
     });
-  })
-  .catch(() => {
-    res.status(404).send('updateFailed');
-  });
 };
 export const userRemove = (req, res) => {
   const { remail } = req.body;

@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import {
   faHome,
   faSignInAlt,
   faSignOutAlt,
-  faUser
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 
 /**
  * @todo define propTypes for each props
@@ -22,7 +22,8 @@ class Navigation extends Component {
       <nav className="navbar navbar-expand-md navbar-light  bg-color">
         <li className="navbar-brand m-2 home">
           <Link to="/">
-            <FontAwesomeIcon icon={faHome}/>Home
+            <FontAwesomeIcon icon={faHome} />
+              Home
           </Link>
         </li>
         <button
@@ -66,10 +67,10 @@ class Navigation extends Component {
                 this.props.token ? (
                   null
                 ) : (
-                    <Link to="/signup" className="nav_link">
-                      <FontAwesomeIcon icon={faUser}/>
+                  <Link to="/signup" className="nav_link">
+                    <FontAwesomeIcon icon={faUser} />
                       &nbsp;&nbsp;Sign Up
-                    </Link>
+                  </Link>
                 )
               }
             </li>
@@ -80,17 +81,17 @@ class Navigation extends Component {
                   to="/"
                   className="nav_link"
                 >
-                    <span>
-                      <FontAwesomeIcon icon={ faSignOutAlt }/>
+                  <span>
+                    <FontAwesomeIcon icon={faSignOutAlt} />
                       &nbsp;&nbsp;Log Out
-                    </span>
+                  </span>
                 </Link>
               ) : (
                 <Link
                   to="/login"
                   className="nav_link"
                 >
-                      <FontAwesomeIcon icon={ faSignInAlt } />
+                  <FontAwesomeIcon icon={faSignInAlt} />
                       &nbsp;&nbsp;Log In
                 </Link>
               )

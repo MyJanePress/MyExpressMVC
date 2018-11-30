@@ -3,11 +3,11 @@ const setUserloginState = (state, action) => {
     return Object.assign(
       {},
       state,
-      { loginFailed: true },
+      { loginFailed: 1 },
     );
   }
 
-  return Object.assign({}, state, { loginFailed: false, token: action.payload });
+  return Object.assign({}, state, { loginFailed: 2, token: action.payload });
 };
 const userUpdate = (state, data) => {
   if (data.payload === 'successed') {
@@ -28,18 +28,17 @@ const setUserAdmin = (state, action) => {
   return Object.assign({}, state, { userAdmin: 'accss_denied' });
 };
 
-const privateDataTable = (state, action) => {
-  return Object.assign({}, state, { privateData: action.payload });
-}
+const privateDataTable = (state, action) => Object.assign({}, state,
+  { privateData: action.payload });
 const postReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN_ASYNC':
       return setUserloginState(state, action);
     case 'LOGOUT_ASYNC':
       localStorage.clear();
-      return Object.assign({}, state, { token: '' });
+      return Object.assign({}, state, { token: '', loginFailed: 0 });
     case 'LOGIN_FAILED':
-      return Object.assign({}, state, { loginFailed: true });
+      return Object.assign({}, state, { loginFailed: 1 });
     case 'SIGNUP_ASYNC':
       return setUserloginState(state, action);
     case 'SIGNUP_FAILED':

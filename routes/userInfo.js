@@ -1,12 +1,12 @@
 import express from 'express';
 import {
-    userLogin,
-    userInfo,
-    userSignup,
-    userInfoUpdate,
-    userRemove,
+  userLogin,
+  userInfo,
+  userSignup,
+  userInfoUpdate,
+  userRemove,
 } from '../controllers/userController';
-import { getPrivateData } from '../controllers/dataInfo';
+import getPrivateData from '../controllers/dataInfo';
 import { fileDownload, fileUpload } from '../controllers/loadingController';
 
 const router = express.Router();

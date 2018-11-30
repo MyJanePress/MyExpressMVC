@@ -1,5 +1,5 @@
 export default function renderFullPage(html, preloadedState) {
-    return `
+  return `
       <!doctype html>
       <html>
         <head>
@@ -12,12 +12,12 @@ export default function renderFullPage(html, preloadedState) {
           <div id="root">${html}</div>
           <script>
             window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
-      /</g,
-      '\\u003c',
-    )}
+    /</g,
+    '\\u003c',
+  )}
           </script>
           <script src="bundle.js"></script>
         </body>
       </html>
       `;
-  }
+}

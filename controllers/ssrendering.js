@@ -1,16 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
+import { renderToString } from 'react-dom/server';
 import App from '../src/Components/App';
 
-import configureStore from "../src/configureStore";
-import { renderToString } from 'react-dom/server';
+import configureStore from '../src/configureStore';
 import renderFullPage from '../template/template';
 
-export const serverSideRendering = (req, res) => {
+const serverSideRendering = (req, res) => {
   const context = {};
   const initialState = {
-    loginFailed: false,
+    loginFailed: 0,
     signupFailed: false,
     updateFailed: false,
     userData: [],
@@ -29,4 +29,6 @@ export const serverSideRendering = (req, res) => {
   );
   const preloadedState = store.getState();
   res.send(renderFullPage(html, preloadedState));
-}
+};
+
+export default serverSideRendering;
