@@ -19,12 +19,6 @@ class RemoveButton extends Component {
    * &times; symbol "X"
    * after double pressed, screen is can not be controlled
    */
-  // toggleModal = () => {
-  //   // const { email, index } = this.props;
-  //   // const { modal } = this.state;
-  //   // if (modal) this.props.userRemoveWatcher({ email, index });
-  //   this.setState({ isOpen: !this.state.isOpen });
-  // }
   toggleModal() {
     this.setState({
       isOpen: !this.state.isOpen

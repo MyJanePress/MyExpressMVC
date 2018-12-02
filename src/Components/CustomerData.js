@@ -23,34 +23,38 @@ class CustomerData extends Component {
           </Link>
         </div>
         <h1>Customer Management</h1>
-        <table className="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>UserID</th>
-              <th>User Name</th>
-              <th>User Email</th>
-              <th>Created Date</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.props.userData.map((item, key) => (
-                <tr key={item.id}>
-                  <td>{ key }</td>
-                  <td>{ item.id }</td>
-                  <td>{ item.userName }</td>
-                  <td>{ item.email }</td>
-                  <td>{ moment(item.createdAt).format('LLLL') }</td>
-                  <td>
-                    <RemoveButton index={key} email={item.email} />
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        <div className="row">
+          <div className="col-sm-12">
+            <table className="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>UserID</th>
+                <th>User Name</th>
+                <th>User Email</th>
+                <th>Created Date</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                this.props.userData.map((item, key) => (
+                  <tr key={item.id}>
+                    <td>{ key }</td>
+                    <td>{ item.id }</td>
+                    <td>{ item.userName }</td>
+                    <td>{ item.email }</td>
+                    <td>{ moment(item.createdAt).format('LLLL') }</td>
+                    <td>
+                      <RemoveButton index={key} email={item.email} />
+                    </td>
+                  </tr>
+                ))
+              }
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     );
   }

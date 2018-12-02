@@ -10,25 +10,39 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import LoginMsg from './MessageBox/LoginMsg';
+import { formValidation, valueValidation } from './FormValidation/FormValidation';
+import ErrorMessage from './MessageBox/ErrorMessage';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = {
+      email: null,
+      password: null,
+      formErrors: {
+        email: "",
+        password: "",
+      }
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+    let { formErrors } = this.state;
+    const { name, value } = event.target;
+    formErrors = formValidation(formErrors, name, value);
+    this.setState({ formErrors, [name]: value });
+    // console.log(formErrors);
+  };
 
   handleSubmit(event) {
     event.preventDefault();
-    const { email, password } = this.state;
-    this.props.loginWatcher({ email, password });
-    // this.setState({ login: true });
-    event.target.reset();
+    if (valueValidation(this.state)) {
+      const { email, password } = this.state;
+      this.props.loginWatcher({ email, password });
+      event.target.reset(); 
+    }
   }
 
   /**
@@ -36,6 +50,8 @@ class Login extends Component {
    * react fontawesome
    */
   render() {
+    const { formErrors } = this.state;
+
     return (
       <div className="container">
         <div className="row m-5">
@@ -48,14 +64,21 @@ class Login extends Component {
                   <strong>Email</strong>
                 </Label>
                 <Input
+                  className={formErrors.email.length > 0 ? "error" : ""}
                   type="email"
                   name="email"
                   id="email"
                   placeholder="Email"
-                  value={this.email}
+                  value={ this.email }
+                  noValidate
                   onChange={event => this.handleChange(event)}
-                  required
                 />
+                {
+                  formErrors.email.length > 0 &&
+                  <ErrorMessage>
+                    {formErrors.email}
+                  </ErrorMessage>
+                }
               </FormGroup>
               <FormGroup>
                 <Label for="password">
@@ -64,14 +87,22 @@ class Login extends Component {
                   </strong>
                 </Label>
                 <Input
+                  className={formErrors.password.length > 0 ? "error" : ""}
                   type="password"
                   name="password"
                   id="password"
                   value={this.password}
                   placeholder="Password"
+                  noValidate
                   onChange={event => this.handleChange(event)}
-                  required
                 />
+                {
+                  formErrors.password.length > 0 && (
+                    <ErrorMessage>
+                      {formErrors.password}
+                    </ErrorMessage>
+                  )
+                }
               </FormGroup>
               <FormGroup>
                 <Label check>
