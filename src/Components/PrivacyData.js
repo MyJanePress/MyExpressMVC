@@ -6,12 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload, faFile } from '@fortawesome/free-solid-svg-icons';
 import { mapStateToProps, mapDispatchToProps } from '../actions/action';
 import DownloadButton from './DownloadButton';
-
+import ErrorMessage from './MessageBox/ErrorMessage';
 class PrivacyData extends Component {
   constructor(props) {
     super(props);
     this.state = {
       file: null,
+      filename: null,
+      uploadValid: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,18 +25,23 @@ class PrivacyData extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.setState({ uploadValid: true });
     const formData = new FormData();
-    formData.append('file', this.state.file);
-    this.props.privacyWatcher(formData);
+    if (this.state.uploadValid) {
+      formData.append('file', this.state.file);
+      this.props.privacyWatcher(formData); 
+    }
   }
 
   handleChange(event) {
     this.setState({
       file: event.target.files[0],
+      filename: event.target.files[0].name,
     });
   }
 
   render() {
+    const { filename, uploadValid } = this.state;
     return (
       <div className="container text-right">
         <form className="form-group" onSubmit={this.handleSubmit}>
@@ -46,6 +53,9 @@ class PrivacyData extends Component {
             ref={(fileInput) => { this.fileInput = fileInput; }}
           />
           <div className="col-md-offset-2 margin-top">
+            {
+              this.state.filename
+            }&nbsp;&nbsp;
             <button
               type="button"
               className="btn btn-primary"
@@ -54,9 +64,7 @@ class PrivacyData extends Component {
               <FontAwesomeIcon icon={faFile} />
               &nbsp;&nbsp;load File
             </button>
-            {
-              // this.state.filename
-            }
+
             <button
               type="submit"
               className="btn btn-default"
@@ -64,6 +72,12 @@ class PrivacyData extends Component {
               <FontAwesomeIcon icon={faFileUpload} />
             &nbsp;&nbsp;Upload
             </button>
+            {
+              filename !== null || uploadValid &&
+              <ErrorMessage>
+                please select file to upload
+              </ErrorMessage>
+            }
           </div>
 
         </form>
@@ -74,7 +88,8 @@ class PrivacyData extends Component {
               <tr>
                 <th>#</th>
                 <th>ID</th>
-                <th>File</th>
+                <th>customer</th>
+                <th>File Name</th>
                 <th>Created Date</th>
                 <th>Last Date</th>
                 <th>download</th>
@@ -87,10 +102,14 @@ class PrivacyData extends Component {
                     <td>{ key }</td>
                     <td>{ item.fileId }</td>
                     <td>{ item.email }</td>
+                    <td>{ item.filename }</td>
                     <td>{ moment(item.createdAt).format('LLLL') }</td>
                     <td>{ moment(item.updatedAt).format('LLLL') }</td>
                     <td>
-                      <DownloadButton fileId={item.fileId} />
+                      <DownloadButton
+                        fileId={ item.fileId }
+                        filename={ item.filename }
+                      />
                     </td>
                   </tr>
                 ))

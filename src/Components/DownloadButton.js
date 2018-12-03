@@ -12,8 +12,8 @@ class DownloadButton extends Component {
   }
 
   handleDownload() {
-    const { fileId } = this.props;
-    this.props.downloadWatcher(fileId);
+    const { fileId, filename } = this.props;
+    this.props.downloadWatcher({ fileId, filename });
   }
 
   render() {

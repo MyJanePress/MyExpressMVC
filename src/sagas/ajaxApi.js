@@ -19,7 +19,19 @@ export const uploadFileApi = file => axios.request({
   method: 'POST',
   url: '/api/file',
   data: file,
+  headers: {
+    'token': localStorage.getItem('token'),
+  },
   onUploadProgress: (progressEvent) => {
     console.log(`upload progress${Math.round((progressEvent.loaded / progressEvent.total) * 100)}`);
   },
 });
+export const downloadFileApi = file =>
+  axios.request({
+  method: 'GET',
+  url: '/api/filedownload',
+  responseType: 'blob',
+    headers: {
+      'fileId' : file,
+    },
+})

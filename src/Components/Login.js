@@ -32,8 +32,10 @@ class Login extends Component {
     let { formErrors } = this.state;
     const { name, value } = event.target;
     formErrors = formValidation(formErrors, name, value);
-    this.setState({ formErrors, [name]: value });
-    // console.log(formErrors);
+    this.setState({
+      formErrors,
+      [name]: value,
+    });
   };
 
   handleSubmit(event) {

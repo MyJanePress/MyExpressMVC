@@ -14,7 +14,7 @@ export const formValidation = (formErrors, name, value) => {
   switch (name) {
     case "username":
       formErrors.username =
-        value.length < 5 ? "minumu 5 charactoers required" : "";
+        value.length < 5 ? "minumum 5 charactoers required" : "";
     case "email":
       formErrors.email =
         emailRegex.test(value) ? "" : "invalid email address";
@@ -23,6 +23,10 @@ export const formValidation = (formErrors, name, value) => {
       formErrors.password =
         value.length < 7 ? "minimum 7 characters required" : "";
       break;
+    case "newpassword":
+      formErrors.newpassword = value.length < 7 ? "new password minimum 7 characters required" : "";
+    case "confirmpassword":
+      formErrors.confirmpassword = value.length < 7 ? "confirm password minimum 7 character" : "";
     default:
       break;
   };
@@ -34,7 +38,11 @@ export const valueValidation = ({ formErrors, ...rest }) => {
     val.length > 0 && (valid = false);
   });
   Object.values(rest).forEach(val => {
-    val.length === null && (valid = false);
+    val === null && (valid = false);
   });
   return valid;
 }
+export const passMatch = (first, second) => {
+  if (first === second) return true;
+  return false;
+};

@@ -96,7 +96,7 @@ export const userLogin = (req, res) => {
 export const userInfoUpdate = (req, res) => {
   const { udata } = req.body;
   const email = req.app.get('email');
-  const { username, oldpassword, newpassword } = udata;
+  const { username, password, newpassword } = udata;
 
   author.findOne(
     {
@@ -106,7 +106,7 @@ export const userInfoUpdate = (req, res) => {
     },
   )
     .then((readData) => {
-      bcrypt.compare(oldpassword, readData.password, (err, result) => {
+      bcrypt.compare(password, readData.password, (err, result) => {
         if (result === true) {
           bcrypt.hash(newpassword, saltRounds, (_err, hash) => {
             author.update(

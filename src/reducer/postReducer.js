@@ -6,30 +6,55 @@ const setUserloginState = (state, action) => {
       { loginFailed: 1 },
     );
   }
-
-  return Object.assign({}, state, { loginFailed: 2, token: action.payload });
+  return Object.assign(
+    {},
+    state,
+    { loginFailed: 2, token: action.payload },
+  );
 };
 const userUpdate = (state, data) => {
   if (data.payload === 'successed') {
-    return Object.assign({}, state, { updateFailed: false });
+    return Object.assign(
+      {},
+      state,
+      { updateFailed: false },
+    );
   }
-  return Object.assign({}, state, { updateFailed: true });
+  return Object.assign(
+    {},
+    state,
+    { updateFailed: true },
+  );
 };
 const removeTableContent = (state, action) => {
   const content = [...state.userData];
-  console.log(content);
   content.splice(action.payload, 1);
-  return Object.assign({}, state, { userData: content });
+  return Object.assign(
+    {},
+    state,
+    { userData: content },
+  );
 };
 const setUserAdmin = (state, action) => {
   if (action.payload.access === 'root') {
-    return Object.assign({}, state, { userAdmin: 'root', userData: action.payload.tblData });
+    return Object.assign(
+      {},
+      state,
+      { userAdmin: 'root', userData: action.payload.tblData },
+    );
   }
-  return Object.assign({}, state, { userAdmin: 'accss_denied' });
+  return Object.assign(
+    {},
+    state, { userAdmin: 'accss_denied' },
+  );
 };
 
-const privateDataTable = (state, action) => Object.assign({}, state,
-  { privateData: action.payload });
+const privateDataTable = (state, action) => Object.assign(
+  {}, 
+  state,
+  { privateData: action.payload },
+);
+
 const postReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN_ASYNC':

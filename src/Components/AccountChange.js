@@ -8,16 +8,31 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import { mapStateToProps, mapDispatchToProps } from '../actions/action';
+import {
+  mapStateToProps,
+  mapDispatchToProps
+} from '../actions/action';
+import {
+  formValidation,
+  valueValidation,
+  passMatch
+} from './FormValidation/FormValidation';
+import ErrorMessage from './MessageBox/ErrorMessage';
 
 class AccountChange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      confirmpassword: '',
-      newpassword: '',
-      passDismatch: false,
+      username: null,
+      password: null,
+      confirmpassword: null,
+      newpassword: null,
+      formErrors: {
+        username: "",
+        password: "",
+        confirmpassword: "",
+        newpassword: "",
+      }
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,36 +41,36 @@ class AccountChange extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const {
-      username, oldpassword, newpassword, confirmpassword,
+      username,
+      password,
+      newpassword,
+      confirmpassword,
     } = this.state;
-    if (confirmpassword === newpassword) {
-      this.props.userInfoWatcher({ username, oldpassword, newpassword });
-      this.setState({
-        username: '',
-        oldpassword: '',
-        confirmpassword: '',
-        newpassword: '',
-        passDismatch: false,
-      });
-    } else {
-      this.setState({ passDismatch: true });
-    }
+    if (passMatch(newpassword, confirmpassword))
+        this.props.userInfoWatcher({ username, password, newpassword })
+    
     event.target.reset();
   }
 
   handleChange(event) {
+    let { formErrors } = this.state;
+    const { name, value } = event.target;
+    formErrors = formValidation(formErrors, name, value);
+
     this.setState({
-      [event.target.name]: event.target.value,
+      formErrors,
+      [name]: value,
     });
-  }
+  };
 
   render() {
+    const { confirmpassword, newpassword, formErrors } = this.state;
     return (
       <div className="row">
         <div className="col-md-3" />
         <div className="col-md-6">
           {
-            this.props.updateFailed === true && (
+            this.props.updateFailed && (
               <span className="pswd_dismatch">Old password incorrect</span>
             )
           }
@@ -63,51 +78,74 @@ class AccountChange extends Component {
             <FormGroup>
               <Label for="username">Username</Label>
               <Input
+                className={formErrors.username.length > 0 ? "error" : ""}
                 type="text"
                 id="username"
                 name="username"
                 value={this.username}
                 onChange={this.handleChange}
-                required
+                noValidate
               />
+              {
+                formErrors.username.length > 0 &&
+                <ErrorMessage>
+                  {formErrors.username}
+                </ErrorMessage>
+              }
             </FormGroup>
             <FormGroup>
               <Label for="confirmpassword">Old Password</Label>
-              {
-                this.state.passDismatch === true && (
-                  <span className="pswd_dismatch">Passwords are dismatch</span>
-                )
-              }
               <Input
+                className={formErrors.password.length > 0 ? "error" : ""}
                 type="password"
-                id="oldpassword"
-                name="oldpassword"
-                value={this.oldpassword}
+                id="password"
+                name="password"
+                value={this.password}
                 onChange={this.handleChange}
-                required
+                noValidate
               />
+              {
+                formErrors.password.length > 0 &&
+                <ErrorMessage>
+                  {formErrors.password}
+                </ErrorMessage>
+              }
             </FormGroup>
             <FormGroup>
               <Label for="newpassword">New Password</Label>
               <Input
+                className={formErrors.newpassword.length > 0 ? "error": ""}
                 type="password"
                 id="newpassword"
                 name="newpassword"
                 value={this.newpassword}
                 onChange={this.handleChange}
-                required
+                noValidate
               />
+              {
+                formErrors.newpassword.length > 0 &&
+                <ErrorMessage>
+                  {formErrors.newpassword}
+                </ErrorMessage>
+              }
             </FormGroup>
             <FormGroup>
               <Label for="newpassword">Confirm Password</Label>
               <Input
+                className={formErrors.confirmpassword.length > 0 ? "error": ""}
                 type="password"
                 id="confirmpassword"
                 name="confirmpassword"
                 value={this.confirmpassword}
                 onChange={this.handleChange}
-                required
+                noValidate
               />
+              {
+                formErrors.confirmpassword.length > 0 &&
+                <ErrorMessage>
+                  {formErrors.confirmpassword}
+                </ErrorMessage>
+              }
             </FormGroup>
             <Button
               className="float-right primary"

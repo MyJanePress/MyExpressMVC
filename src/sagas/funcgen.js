@@ -13,6 +13,7 @@ import {
 import {
   ajaxApi,
   uploadFileApi,
+  downloadFileApi
 } from './ajaxApi';
 
 export function* loginEffectSaga(action) {
@@ -102,13 +103,23 @@ export function* privateDataSaga() {
     console.log(e);
   }
 }
-export function* downloadSaga(fileId) {
-  const payload = {
-    ID: fileId.payload,
-  };
+/**
+ * 
+ * @param {string} filename to save by own filename. file come from DownloadButton as props
+ * @param {UUID} fileId to select filename at server we send request with fileId in headers
+ * @todo error handling. present time error processed by console.
+ * error - 404 error
+ */
+export function* downloadSaga(params) {
+  const { fileId, filename } = params.payload;
   try {
-    const res = yield call(ajaxApi, 'GET', 'api/filedownload', payload);
-    console.log(res);
+    const { data } = yield call(downloadFileApi, fileId);
+    const url = window.URL.createObjectURL(new Blob([data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
   } catch (e) {
     console.log(e);
   }
