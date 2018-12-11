@@ -111,13 +111,13 @@ export function* privateDataSaga() {
  * error - 404 error
  */
 export function* downloadSaga(params) {
-  const { fileId, filename } = params.payload;
+  const { fileId, original_name } = params.payload;
   try {
     const { data } = yield call(downloadFileApi, fileId);
     const url = window.URL.createObjectURL(new Blob([data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', filename);
+    link.setAttribute('download', original_name);
     document.body.appendChild(link);
     link.click();
   } catch (e) {

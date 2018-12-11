@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     fileId: DataTypes.STRING,
     email: DataTypes.STRING,
     filename: DataTypes.STRING,
-    filepath: DataTypes.STRING
+    filepath: DataTypes.STRING,
+    original_name: DataTypes.STRING,
   }, {});
   fileload.removeAttribute('id');
   fileload.associate = function(models) {

@@ -28,9 +28,8 @@ if (app.get('env') === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(tokenCheck);
 
-app.use('/api', userInfoRouter);
+app.use('/api', tokenCheck, userInfoRouter);
 /**
  * @param {ssrRouter} crucial part for ServerSideRendering
  */

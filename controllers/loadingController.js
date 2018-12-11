@@ -1,11 +1,13 @@
 import multer from 'multer';
 import { fileload } from '../models';
 import uuid from 'uuid-v4';
+import path from 'path';
 
+const filename_unique = Date.now();
 const storage = multer.diskStorage({
   destination: './upload',
   filename(req, file, cb) {
-    cb(null, `${file.originalname}`);
+    cb(null, `${filename_unique}${path.extname(file.originalname)}`);
   },
 });
 
@@ -19,18 +21,22 @@ const upload = multer({ storage }).single('file');
 export const fileUpload = (req, res) => {
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
+      console.log(err);
       res.status(404).send(err);
+      
       // A Multer error occurred when uploading.
     } else if (err) {
+      console.log(err);
       res.status(404).send(err);
       // An unknown error occurred when uploading.
     } else {
       fileload.create({
         fileId: uuid(),
         email: req.app.get('email'),
-        filename: req.file.originalname,
+        filename: `${filename_unique}${path.extname(req.file.originalname)}`,
         filepath: './upload',
-      })
+        original_name: req.file.originalname,
+      });
       res.status(200).send();
     }
     // Everything went fine.
@@ -47,7 +53,6 @@ export const fileUpload = (req, res) => {
 export const fileDownload = (req, res) => {
   const { fileid } = req.headers;
   fileload.findOne({
-    attributes: ['filename'],
     where: {
       fileId: fileid,
     }
@@ -63,6 +68,5 @@ export const fileDownload = (req, res) => {
     })
     .catch(_err => {
       res.status(404).send('failed');
-  })
-  // './upload/GitHubDesktopSetup.exe'
+  });
 };

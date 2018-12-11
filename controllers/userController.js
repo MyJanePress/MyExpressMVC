@@ -45,7 +45,6 @@ export const userSignup = (req, res) => {
       if (!read.length) {
         bcrypt.hash(password, saltRounds, (err, hash) => {
           author.create({
-            id: uuid(),
             userName: username,
             email,
             password: hash,

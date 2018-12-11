@@ -102,13 +102,13 @@ class PrivacyData extends Component {
                     <td>{ key }</td>
                     <td>{ item.fileId }</td>
                     <td>{ item.email }</td>
-                    <td>{ item.filename }</td>
+                    <td>{ item.original_name }</td>
                     <td>{ moment(item.createdAt).format('LLLL') }</td>
                     <td>{ moment(item.updatedAt).format('LLLL') }</td>
                     <td>
                       <DownloadButton
                         fileId={ item.fileId }
-                        filename={ item.filename }
+                        original_name={ item.original_name }
                       />
                     </td>
                   </tr>

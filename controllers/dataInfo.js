@@ -2,7 +2,7 @@ import { fileload } from '../models';
 
 const getPrivateData = (req, res) => {
   fileload.findAll({
-    attributes: ['fileId', 'email', 'filename',  'createdAt', 'updatedAt'],
+    attributes: ['fileId', 'email', 'original_name',  'createdAt', 'updatedAt'],
   })
     .then((readData) => {
       res.status(200).send(readData);
